@@ -14,7 +14,7 @@ The DNN platform will focus on facilitating the dissemination of balanced and fa
 
 To find out more our DNN, feel free to [join the conversation on our slack](https://slack.dnn.media/) or read more on our [site](https://dnn.media/).
 
-![DNN Logo](https://dnn.media/assets/img/header-text.png)
+![DNN Logo](./public/assets/img/header-text.png)
 
 ## Installation
 
