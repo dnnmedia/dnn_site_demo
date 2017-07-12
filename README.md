@@ -33,8 +33,12 @@ node server.js
 
 To view DNN, open up your browser and navigate to `http://localhost:8002/onboard`
 
+### Using the DNN Alpha
+
+For any help with using the DNN alpha, please refer to the [DNN Alpha Access Instructions](https://demo.dnn.media/alpha/access/instructions).
+
 ### Contributing
-To submit changes to the main DNN demo repo, please submit a pull request. If you have any question or if your pull request has not yet been responded to, [please vist the DNN slack](https://slack.dnn.media).
+To submit changes to the main DNN demo repo, please submit a pull request. If you have any question or if your pull request has not yet been responded to, [please visit the DNN slack](https://slack.dnn.media).
 
 ### Reporting Bugs
 
@@ -44,13 +48,13 @@ Please report all bugs to the git issues section or notify the DNN community via
 
 DNN uses a number of open source projects to work properly:
 
-* [AngularJS] - HTML enhanced for web apps!
-* [Aloha Editor] - awesome web-based text editor
-* [Sass] - Markdown parser done right. Fast and easy to extend.
-* [Compass] - great UI boilerplate for modern web apps
-* [NodeJs] - evented I/O for the backend
-* [HapiJS] - fast node.js network app framework
-* [jQuery] - goes without saying
+* [AngularJS] - A complete framework for rapid developing web apps.
+* [Aloha Editor] - web-based text editor.
+* [Sass] - CSS extension language.
+* [Compass] - CSS Authoring Framework.
+* [NodeJs] - JavaScript runtime built on Chrome's V8 JavaScript engine.
+* [HapiJS] - A rich framework for building applications and services.
+* [jQuery] - don't think it needs an introduction.
 
 # License
 Apache 2.0
