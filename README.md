@@ -59,7 +59,7 @@ DNN uses a number of open source projects to work properly:
 
 Feel to reach the DNN team on any of our social channels.
 
-[Slack](http://slack.dnn.media/).
+[Slack](http://slack.dnn.media/)
 
 [Twitter](https://twitter.com/DNN_Blockchain)
 
