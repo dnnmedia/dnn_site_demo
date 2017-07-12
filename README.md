@@ -55,7 +55,23 @@ DNN uses a number of open source projects to work properly:
 * [HapiJS] - A rich framework for building applications and services.
 * [jQuery] - don't think it needs an introduction.
 
-# License
+### Social Channels
+
+Feel to reach the DNN team on any of our social channels.
+
+[Slack](http://slack.dnn.media/).
+
+[Twitter](https://twitter.com/DNN_Blockchain)
+
+[Facebook](https://www.facebook.com/DNNBlockchain/)
+
+[Reddit](https://www.reddit.com/r/DNNMedia/)
+
+[Bitcoin Talk](https://bitcointalk.org/index.php?topic=1920096.0)
+
+[Telegram](https://t.me/DNNMedia)
+
+### License
 Apache 2.0
 
    [AngularJS]: <http://angularjs.org>
