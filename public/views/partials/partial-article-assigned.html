@@ -1,0 +1,64 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+		<div class="page-wrapper" ng-controller="ArticlesAssignedCtrl">
+  		{{#embed "partial-header"}}{{/embed}}
+      <div id="wrapper">
+         <main id="article-assigned">
+					  <h1>Articles Assigned</h1>
+
+					  <div class="articles" ng-show="articles.length > 0">
+								<div class="article-wrapper" ng-repeat="article in articles">
+										<div class="article" ng-click="view(article.id)">
+											<mediabackground ng-if="article.article.cover && article.article.cover != ''"  type="image" hash="article.article.cover"></mediabackground>
+											<div ng-if="!article.article.cover || article.article.cover == ''" class="image"></div>
+											<div class="body">
+													<span ng-if="article.article.title.text != ''">[[article.article.title.text]]</span>
+													<span ng-if="article.article.title.text == ''">Untitled</span>
+													<span><i></i> Created [[article.article.created | fromnow]]</span>
+											</div>
+										</div>
+										<div class="options">
+												<button ng-click="review(article.hash)" class="option option-review">Review</button>
+										</div>
+							</div>
+					</div>
+					<p class="empty-message" ng-show="articles.length === 0">You have not been assigned any articles yet.</p>
+
+					<div class="bottom">
+            <button onclick="window.location.href = '/dashboard'">Back to Dashboard</button>
+          </div>
+
+        </main>
+        </div>
+    </div>
+		{{/content}}
+
+		{{#content "scripts"}}
+		<script>
+				'use strict';
+				angular.module('DNN')
+					.controller('ArticlesAssignedCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+						window["addEventListener"]('load', function() {
+								if (handleBrowserWeb3EnabledIfNeeded()) {
+									DNN.User.handle(DNN.User.Types.Reviewer)
+											.then(function(user) {
+													var popup = new DNN.popup("message", "", "Do you want to begin review this article?", ["Cancel", "Review"], "/assets/img/articles-clipboard.png")
+													$timeout(function() {
+															$scope.DNN = DNN;
+															$scope.articles = DNN.User.getAssignedArticles();
+															$scope.review = function(id) {
+																	popup.on("button", function(event) {
+																			if (event.detail.button === 1) {
+																					window.location.href = "/article/review/" + id;
+																			}
+																	});
+																	popup.show();
+															};
+													});
+											});
+									}
+								});
+					}]);
+	  </script>
+		{{/content}}
+{{/extend}}

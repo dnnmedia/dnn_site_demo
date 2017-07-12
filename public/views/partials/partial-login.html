@@ -1,0 +1,24 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+    <div id="wrapper">
+      <main id="login">
+        <div id="sections">
+						<section data-section="signin" class="visible">
+              <h1>Sign into DNN</h1>
+              <p>Please enter your email and password.</p>
+              <div class="field">
+                  <input type="email" placeholder="Email">
+              </div>
+              <div class="field">
+                  <input type="password" placeholder="Password">
+              </div>
+              <button>Login</button>
+          </section>
+
+				</main>
+      </div>
+    {{/content}}
+
+		{{#content "scripts"}}
+		{{/content}}
+{{/extend}}

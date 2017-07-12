@@ -1,0 +1,78 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+			<div class="page-wrapper" ng-controller="AccountCtrl">
+		  		{{#embed "partial-header"}}{{/embed}}
+		      <div id="wrapper">
+		         <main id="account">
+							  <h1>My Account</h1>
+
+								 <div class="account-profile">
+									 	<button ng-click="addPhoto()"></button>
+										<div class="media image" ng-if="user && user.photo == ''" ng-click="addPhoto()"></div>
+										<mediabackground ng-if="user && user.photo != ''" ng-click="addPhoto()" type="image" hash="user.photo"></mediabackground>
+								 </div>
+								 <div class="fields">
+									 	<div class="field">
+												<input type="text" placeholder="Fullname" ng-model="user.fullname">
+										</div>
+ 									 	<div class="field">
+ 												<input type="email" placeholder="Email" ng-model="user.email">
+ 										</div>
+								 </div>
+								 <a class="btn" ng-disabled="!user || user.fullname.length == 0 || user.email.length == 0" ng-click="save()" href="javascript:void(0);">Save</a>
+
+		        </main>
+		        </div>
+			</div>
+    {{/content}}
+
+		{{#content "scripts"}}
+		<script>
+				'use strict';
+				angular.module('DNN')
+					.controller('AccountCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+								angular.element(window).on("load", function() {
+									if (handleBrowserWeb3EnabledIfNeeded()) {
+											DNN.User.handle(DNN.User.Types.Any)
+													.then(function(user) {
+															$timeout(function() {
+																  $scope.user = user.user;
+																	$scope.user.photo = user.user.photo || ""
+																	$scope.DNN = DNN;
+																	$scope.addPhoto = function() {
+																			var popup = new DNN.popup("uploader", "", "", ["Done"])
+																			popup.on("uploaded", function(event) {
+																					var files = event.detail.files
+																					if (files && files.length > 0) {
+																							$timeout(function() {
+																									$scope.user.photo = files[0].hash;
+																							})
+																					}
+																			});
+																			popup.show();
+																	};
+																	$scope.save = function() {
+																		if ($scope.user.fullname.length > 0 && $scope.user.email.length > 0) {
+																			var popup = new DNN.popup("message", "", "Please approve the following transaction to update your account on the network.", ["Cancel", "Okay"])
+																			popup.on("button", function(event) {
+																					  if (event.detail.button == 1) {
+																								DNN.User.session.user.photo = $scope.user.photo
+																								DNN.User.session.user.fullname = $scope.user.fullname
+																								DNN.User.session.user.email = $scope.user.email
+																								DNN.User.updateData(DNN.User.session.user, DNN.User.session.account)
+																									.then(console.log)
+																									.catch(console.log);
+																						}
+																				});
+																				popup.show();
+																		}
+																	};
+															});
+													})
+									}
+
+								});
+					}]);
+	  </script>
+		{{/content}}
+{{/extend}}

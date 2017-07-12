@@ -1,0 +1,95 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+		<div class="page-wrapper" ng-controller="ArticleCtrl">
+  		{{#embed "partial-header"}}{{/embed}}
+      <div id="wrapper">
+         <main id="article">
+           <article>
+             <div class="intro">
+							 <mediabackground ng-if="article.user.user.photo && article.user.user.photo != ''"  type="image" hash="article.user.user.photo"></mediabackground>
+				       <div class="details">
+                 <span>Written by: <strong>[[article.user.user.fullname]]</strong></span>
+                 <span>[[article.created | date]]</span>
+               </div>
+             </div>
+              <h1>[[article.title.text]]</h1>
+              <media type="image" ng-if="article && article.cover != ''" hash="[[article.cover]]" id="main-media"></media>
+              <div class="share">
+                <a href="javascript:void(0);" ng-click="share()">
+                  <div class="facebook"></div>
+                </a>
+                <a href="javascript:void(0);" ng-click="share()">
+                  <div class="twitter"></div>
+                </a>
+                <a href="javascript:void(0);" ng-click="like()">
+                  <div class="heart"></div>
+                  <span>0</span>
+                </a>
+              </div>
+              <div class="divider"></div>
+             <div class="body" ng-bind-html="article.body.textmarkup | trust"></div>
+          </article>
+
+          <div class="comment-section">
+            <div class="comment-count">
+              <div class="icon"></div>
+              <div class="count">0 comments</div>
+            </div>
+            <button class="post-button" ng-click="comment()">Post Comment</button>
+            <div class="comments">
+            </div>
+          </div>
+
+					<div class="bottom">
+            	<button onclick="window.location.href = '/dashboard'">Back to Dashboard</button>
+          </div>
+
+        </main>
+        </div>
+    </div>
+		{{/content}}
+
+		{{#content "scripts"}}
+		<script>
+	    angular.module("DNN")
+	      .controller("ArticleCtrl", ["$scope", "$timeout", "$interval", function($scope, $timeout, $interval) {
+							window["addEventListener"]('load', function() {
+									if (handleBrowserWeb3EnabledIfNeeded()) {
+										DNN.User.handle(DNN.User.Types.Any)
+												.then(function(user) {
+														$timeout(function() {
+																var articleHash = location.pathname.split("/").reverse()[0]
+																LI.show()
+																$scope.DNN = DNN;
+																DNN.Article.get(articleHash)
+																	.then(function(article) {
+																			LI.hide();
+																		 	$timeout(function() {
+																				 	$scope.article = article;
+																					DNN.Article.read(article, articleHash);
+																					$scope.comment = function() {
+																						 	var popup = new DNN.popup("notice","","Commenting on articles is not yet available.", ["Okay"])
+																							popup.show();
+																					};
+																					$scope.share = function() {
+																						 	var popup = new DNN.popup("notice","","Sharing articles is not yet available.", ["Okay"])
+																							popup.show();
+																					};
+																					$scope.like = function() {
+																						 	var popup = new DNN.popup("notice","","Liking articles is not yet available.", ["Okay"])
+																							popup.show();
+																					};
+																			})
+																	})
+																	.catch(function(err) {
+																			window.location.href = "/dashboard"
+																	})
+														});
+												})
+								  }
+
+								});
+				}])
+	  </script>
+		{{/content}}
+{{/extend}}

@@ -1,0 +1,58 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+    <div id="wrapper">
+      <a href="/dashboard">
+          <div id="logo"></div>
+      </a>
+      <main id="type" ng-controller="TypeCtrl">
+        <div id="sections">
+
+          <!-- Select Type -->
+          <section data-section="selecttype" class="visible">
+            <h1>Change your user type</h1>
+            <p>Your user type can be changed at any time for the purposes of this demo.</p>
+            <div id="types">
+							<div class="type" ng-click="userType = DNN.User.Types.Reader" ng-class="{selected: userType && userType == DNN.User.Types.Reader}"><div data-type="reader"></div></div>
+							<div class="type" ng-click="userType = DNN.User.Types.Reviewer" ng-class="{selected: userType && userType == DNN.User.Types.Reviewer}"><div data-type="reviewer"></div></div>
+							<div class="type" ng-click="userType = DNN.User.Types.Writer" ng-class="{selected: userType && userType == DNN.User.Types.Writer}"><div data-type="writer"></div></div>
+					  </div>
+            <button ng-disabled="userType == DNN.User.session.userType" ng-click="save(userType)">Save</button>
+          </section>
+				</main>
+      </div>
+    {{/content}}
+
+		{{#content "scripts"}}
+		<script>
+				'use strict';
+				angular.module('DNN')
+					.controller('TypeCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+								  angular.element(window).on("load", function() {
+											if (handleBrowserWeb3EnabledIfNeeded()) {
+				 									DNN.User.handle(DNN.User.Types.Any)
+				 											.then(function(user) {
+																	$timeout(function() {
+																		  $scope.userType = user.userType
+																			$scope.DNN = DNN;
+																			$scope.save = function(type) {
+																					DNN.User.updateType(type, user.account)
+																							.then(function() {
+																									$timeout(function() {
+																											$scope.userType = type
+																											DNN.User.session.userType = type;
+																											var popup = new DNN.popup("notice","","Your account has been successfully updated. Please allow up to <strong>30 seconds</strong> for this change to go into effect.", ["Back to Dashboard"])
+																											popup.on("button", function() {
+																													window.location.href = "/dashboard";
+																											})
+																											popup.show();
+																									})
+																							})
+																			};
+																	});
+				 									  	})
+				 						 	}
+									});
+					}]);
+	  </script>
+		{{/content}}
+{{/extend}}

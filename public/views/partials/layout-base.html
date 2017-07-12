@@ -1,0 +1,84 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>DNN - Decentralized News Network</title>
+    <meta name="description" content="DNN, or Decentralized News Network, is a global and neutral political news platform powered by blockchain technology.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="/assets/css/normalize.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    <link rel="stylesheet" href="/assets/js/aloha/src/css/aloha-reset.css">
+    <link rel="stylesheet" href="/assets/js/aloha/src/css/aloha-core.css">
+    <link rel="stylesheet" href="/assets/js/aloha/src/css/aloha-common-extra.css">
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+      *[ng-cloak] {
+        display: none;
+      }
+    </style>
+</head>
+<body id="page-{{id}}" ng-app="DNN" ng-cloak>
+
+    <script src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/js/jquery/jquery.js"><\/script>')</script>
+
+    <script src="/assets/js/moment/moment.js"></script>
+    <script src="/assets/js/requires/requires.js"></script>
+    <script src="/assets/js/qrcode/qrcode.min.js"></script>
+    <script src="/assets/js/ipfs/api.js"></script>
+    <script src="/assets/js/ipfs/api-wrapper.js"></script>
+    <script src="/assets/js/ethereum/backend.js"></script>
+
+    <script src="/assets/js/dnn/dnn.js"></script>
+    <script src="/assets/js/aloha/src/lib/require.js"></script>
+    <script src="/assets/js/aloha/src/lib/aloha.js" data-aloha-plugins=""></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
+
+    <script src="/assets/js/ui/ui.js"></script>
+    <script src="/assets/js/app/app.js"></script>
+    <script src="/assets/js/app/mockdata.js"></script>
+
+    {{#block "body"}}{{/block}}
+
+    {{#block "scripts"}}{{/block}}
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-90925101-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+</body>
+</html>

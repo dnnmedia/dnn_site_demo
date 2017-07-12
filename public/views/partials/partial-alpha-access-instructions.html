@@ -1,0 +1,135 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+		<div class="page-wrapper" ng-controller="AlphaAccessInstructionsCtrl">
+  		{{#embed "partial-header-minimal"}}{{/embed}}
+      <div id="wrapper">
+		         <main id="alpha-access-instructions" class="blog">
+							 <h1>DNN Alpha Access Instructions</h1>
+							 <h2 id="get-kovan">How to get Kovan Ether (KETH)</h2>
+							 <p>There are two ways for you to obtain Kovan Ether:</p>
+							 <ol>
+								 	<li>Ask a member of the DNN team <em>(Recommended)</em></li>
+									<li>Use Parity</li>
+							 </ol>
+							 <p>To ask for Kovan Ether from a member of the DNN team, sign in to the <a href="//slack.dnn.media" target="_blank">DNN slack</a> and direct message either <strong>@dondreyt</strong> or <strong>@samit</strong> with your public address. KETH will then be transfered directly to the address that you provide.</p>
+							 <p>If you choose to obtain Kovan Ether through Parity, you will need to verify your Ethereum account using a small amount of real ether. Once verified, you will be able to obtain <strong>5 Kovan Ether (KETH)</strong> every 24 hours. The following video will show you how to verify your account.</p>
+							 <iframe width="100%" height="500" src="https://www.youtube.com/embed/99UucFzYCRc" frameborder="0" allowfullscreen></iframe>
+							 <p>For a complete explaination of how to get KETH using Parity refer to the <a href="https://github.com/kovan-testnet/faucet" target="_blank">Kovan Testnet faucet repo</a>.</p>
+							 <h2 id="get-dnn">How to get DNN tokens</h2>
+							 <p>To obtain DNN tokens send <strong>0.001 KETH</strong> to the following address <strong>0x4cc65D82d4d66b1305EAaA2a62909bd07833f85E</strong>. Afterwards, please notify either <strong>@dondreyt</strong> or <strong>@samit</strong> via <a href="//slack.dnn.media/" target="_blank">slack</a> with your public address so that DNN can be transfered.</p>
+							 <img src="/assets/img/alpha-access-screenshots/dnn-1.png" class="screenshot">
+ 							 <img src="/assets/img/alpha-access-screenshots/dnn-2.png" class="screenshot">
+ 							 <p>Eventually, sending KETH to the specified address will automatically trigger the issuence of the DNN tokens in future updates.</p>
+							 <h2>Getting started with a Web3-Enabled Browser</h2>
+							 <p>Web3 browsers allow you to interact with decentralized applications (called <strong>DApps</strong>) on the Ethereum blockchain. Currently, the  most popular available options are two different web3-enabled browsers and a web3-enabled plugin.</p>
+							 <ol>
+								  <li><a href="javascript:void(0);" target="_blank">MetaMask</a> - <em>Web3 Plugin</em></li>
+								 	<li><a href="javascript:void(0);" target="_blank">Parity</a> - <em>Web3 Browser</em></li>
+									<li><a href="javascript:void(0);" target="_blank">Mist</a> - <em>Web3 Browser</em></li>
+							</ol>
+							<h3 id="metamask-setup">MetaMask - Setup Instructions</h3>
+							<p>The MetaMask plugin allows you to interact with the Ethereum blockchain without the need for a seperate desktop application. Currently, MetaMask is supported in <a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en" target="_blank">Google Chrome</a>, <a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/" target="_blank">Firefox</a>, and <a href="https://github.com/MetaMask/metamask-plugin/issues/509" target="_blank">Microsoft Edge</a>. For this tutorial we'll assume you will be using Google Chrome, however, after the plugin is installed, setting up a wallet using MetaMask will be similar, if not the same between various browser implementations.</p>
+							<p>To install MetaMask on Google Chrome, head over to the Google Web Store, and <a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en" target="_blank">download the MetaMask Plugin</a>.</p>
+							<img src="/assets/img/alpha-access-screenshots/metamask-1.png" class="screenshot">
+							<p>Read over the MetaMask Privacy Notice, then <strong>accept</strong>.</p>
+							<img src="/assets/img/alpha-access-screenshots/metamask-2.png" class="screenshot">
+							<p>Read over the MetaMask Terms of Use, then <strong>accept</strong>.</p>
+							<img src="/assets/img/alpha-access-screenshots/metamask-3.png" class="screenshot">
+							<p>At this point you will be prompted to create a password. Your password will be used to secure your ether and DNN tokens, so pick something strong!</p>
+							<img src="/assets/img/alpha-access-screenshots/metamask-4.png" class="screenshot">
+							<p>Mark down the phrase listed in this step. This phrase will be used to recover your password should you forget it. <strong>WARNING: <u>You will not be able to retrieve this again. If you lose it, you will never be able to access your ether or DNN tokens from this wallet</u></strong>.</p>
+							<img src="/assets/img/alpha-access-screenshots/metamask-5.png" class="screenshot">
+							<p>Your account on MetaMask is now successfully created. MetaMask is currently connected to Mainnet, but to interact with DNN, MetaMask must be configured with the Kovan network. To change the network MetaMask is connected to, click on the diamond or text to the right of the diamond at the upper left corner to view a list of available network options.</p>
+							<img src="/assets/img/alpha-access-screenshots/metamask-6.png" class="screenshot">
+							<p>Select <strong>Kovan Test Network</strong>.</p>
+							<img src="/assets/img/alpha-access-screenshots/metamask-7.png" class="screenshot">
+							<p>To add additional accounts, click on the user icon with circular arrows. On this screen, you can select a different account or add a new one.</p>
+							<img src="/assets/img/alpha-access-screenshots/metamask-8.png" class="screenshot">
+							<p>Occasionaly, MetaMask may lock your account for security reasons. If this happens, you will need to provide your MetaMask password to unlock it.</p>
+							<img src="/assets/img/alpha-access-screenshots/metamask-9.png" class="screenshot">
+							<p>Refer to MetaMask's <a href="https://medium.com/metamask/metamask-ff7d3571f331" target="_blank">blog post</a> or <a href="https://metamask.io" target="_blank">website</a> for further information regarding setup.</p>
+
+							<h3 id="parity-setup">Parity - Setup Instructions</h3>
+							<p>To get started with Parity, you will need to download the Parity desktop application from <a href="https://parity.io/parity.html" target="_blank">Parity Technologies's site</a>. Parity is currently available on Ubuntu, Mac OSX, Docker, and Windows.</p>
+							<p>The rest of the setup instructions will be based on the Ubuntu and Mac OSX version of Parity, however the steps to set up Parity will be largely the same between platforms.</p>
+							<p>
+									To install Parity for Ubuntu or Mac OSX run the command in your terminal
+								  <code>bash <(curl https://get.parity.io -Lk)</code>
+							</p>
+							<p>To test if Parity installed correctly run the following command in your terminal</p>
+							<code>parity --version</code>
+							<p>If Parity is properly installed, you should see the version of Parity that you are running neatly displayed beneath the command. If you do not, please refer to <a href="https://github.com/paritytech/parity/wiki" target="_blank">Parity's Wiki</a> for troubleshooting help.</p>
+							<p>With Parity installed, you are ready to configure it to connect to the Kovan Testnet. By default, Parity connects to Mainnet, to modify this, you will need to run parity and then navigate to the config directory.</p>
+							<p>Run Parity with the following command to generate the configuration directory</p>
+							<code>parity</code>
+							<p>Once Parity generates a public address, quite the process by holding CTRL+C. Depending on what platform you are using the configuration directory will be different. The following a the directories in which you can find the Parity configuration file.</p>
+							<code>Windows: %UserProfile%\AppData\Roaming\Parity\Ethereum\</code>
+							<code>Linux: ~/.local/share/io.parity.ethereum/</code>
+							<code>Mac OSX: $HOME/Library/Application Support/io.parity.ethereum/</code>
+							<p>To let parity know you are running a configuration in a different directory, run Parity using the following command</p>
+							<code>parity --config path/to/config.toml</code>
+							<p>Refer to <a href="https://github.com/paritytech/parity/wiki" target="_blank">Parity's Wiki</a> for more information about Parity Configuration</p>
+							<p>Once inside Parity directory, create the Parity configuration file, if one does not already exist</p>
+							<code>touch config.toml</code>
+							<p>Inside the config.toml file add or modify the the file to have the following lines</p>
+							<code>[parity]<br>chain = "kovan"</code>
+							<p>After you save your changes to the config.toml file, run Parity</p>
+							<code>parity</code>
+							<p>With Parity now running, open up your web browser and navigate to <strong>127.0.0.1:8180</strong> to access Parity's web interface.</p>
+							<img src="/assets/img/alpha-access-screenshots/parity-4.png" class="screenshot">
+							<p>Choose next to proceed past the welcome screen.</p>
+							<img src="/assets/img/alpha-access-screenshots/parity-5.png" class="screenshot">
+							<p>Read over Parity's Terms and Conditions, then accept them to continue.</p>
+							<img src="/assets/img/alpha-access-screenshots/parity-6.png" class="screenshot">
+							<p>Create a name and password for your account. Be sure to choose a strong password to ensure that your account is as secure as possible. Once you have finished entering a name and username, choose a profile picture, and click create to continue.</p>
+							<img src="/assets/img/alpha-access-screenshots/parity-7.png" class="screenshot">
+							<p>Mark down your newly created wallet address and recovery password phrase. <strong>Be sure not to lose your recovery password phrase, should you forget it, you will no longer have access to funds in your Ethereum account</strong>.</p>
+							<img src="/assets/img/alpha-access-screenshots/parity-8.png" class="screenshot">
+							<p>A setup completion screen will inform you that your Parity node has been successfully setup.</p>
+							<img src="/assets/img/alpha-access-screenshots/parity-9.png" class="screenshot">
+							<p>To use Parity from within a traditional browser like Chrome, install the Parity extension by clicking on <strong>INSTALL THE EXTENSION NOW!</strong> from the orange popup.</p>
+							<img src="/assets/img/alpha-access-screenshots/parity-10.png" class="screenshot">
+							<p>Click <strong>ADD TO CHROME</strong> to install the Parity extension.</p>
+							<img src="/assets/img/alpha-access-screenshots/parity-11.png" class="screenshot">
+							<p>At the top right corner of chrome you will see the Parity icon. Clicking on this icon will reveal the network Parity is connected to. To use DNN, Parity must be connected to the <strong>Kovan Testnet</strong>. and not Mainnet (contrary what is shown in the screenshot below).</p>
+							<img src="/assets/img/alpha-access-screenshots/parity-12.png" class="screenshot">
+
+							<h3 id="mist-setup">Mist - Setup Instructions</h3>
+							<p>To use the Mist Browser please download the Mist standalone desktop application <a href="https://github.com/ethereum/mist/releases" target="_blank">here</a>.
+
+							<h2 id="enable-localstorage">Enabling Local Storage</h2>
+							<p>Local storage gives web applications the ability to store data within your browser. This allows for a smoother experience because data does not have to be downloaded prior to viewing. In DNN's case, local storage is used to store the contents of articles that are retrieved from the DNN network.</p>
+							<p>Local Storage is supported by <a href="http://tips.tutorialhorizon.com/2016/08/18/allowenable-localstorage-in-chrome/" target="_blank">Google Chrome (version > 4)</a>, <a href="http://www.techentice.com/enable-disable-dom-storage-cookies-internet-explorerfirefox/" target="_blank">Internet Explorer (version >= 8)</a>, <a href="http://www.techentice.com/enable-disable-dom-storage-cookies-internet-explorerfirefox/" target="_blank">Edge</a>, <a href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank">Firefox (version >= 3.5)</a>, <a href="https://support.apple.com/kb/PH19214?locale=en_US" target="_blank">Safari (version >= 4)</a>, and <a href="http://www.opera.com/help/tutorials/security/privacy/" target="_blank">Opera (version >= 11.5)</a></p>
+							<p>Below of the steps to enable Local Storage in Google Chrome.</p>
+							<p>Click on the three vertical dots at the top right corner of chrome</p>
+							<img src="/assets/img/alpha-access-screenshots/chrome-1.png" class="screenshot">
+							<p>Choose <strong>Settings</strong>.</p>
+							<img src="/assets/img/alpha-access-screenshots/chrome-2.png" class="screenshot">
+							<p>Scroll down to the bottom until you see the <strong>Advanced</strong> option.</p>
+							<img src="/assets/img/alpha-access-screenshots/chrome-3.png" class="screenshot">
+							<p>Click on the advanced option and then choose <strong>Content settings</strong>.</p>
+							<img src="/assets/img/alpha-access-screenshots/chrome-4.png" class="screenshot">
+							<p>Choose <strong>Cookies</strong>.</p>
+							<img src="/assets/img/alpha-access-screenshots/chrome-5.png" class="screenshot">
+							<p>Ensure that the option <strong>Allow sites to save and read cookie data</strong> is enabled</strong>.</p>
+							<img src="/assets/img/alpha-access-screenshots/chrome-6.png" class="screenshot">
+							<h2>Additional Help</h2>
+							<p>For any additional help, please feel free to join our <a href="//slack.dnn.media" target="_blank">slack</a> or visit our <a href="//dnn.media/faq" target="_blank">FAQ</a>.</p>
+					</main>
+        </div>
+    </div>
+		{{/content}}
+
+		{{#content "scripts"}}
+		<script>
+				'use strict';
+				angular.module('DNN')
+					.config([function() {
+					}])
+					.controller('AlphaAccessInstructionsCtrl', ['$scope', '$location', '$timeout', '$anchorScroll', function($scope, $location, $timeout, $anchorScroll) {
+								window["addEventListener"]('load', function() {
+								});
+					}]);
+	  </script>
+		{{/content}}
+{{/extend}}

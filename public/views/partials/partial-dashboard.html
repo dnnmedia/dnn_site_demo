@@ -1,0 +1,122 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+			<div class="page-wrapper" ng-controller="DashboardCtrl">
+				{{#embed "partial-header"}}{{/embed}}
+				<main id="dashboard" data-dashboard="[[DNN.User.session.userType]]">
+
+					<div id="heading"></div>
+
+					<div id="sections">
+
+						<!-- Left -->
+						<section class="left">
+								<div class="module box wallet">
+										<div class="heading"></div>
+										<h2>[[DNN.User.session.balance]] DNN</h2>
+										<a href="/wallet" class="button">Buy DNN</a>
+								</div>
+								<div class="module box articles-reviewed" ng-show="DNN.User.session && DNN.User.session.userType === DNN.User.Types.Reviewer">
+										<div class="heading"></div>
+										<h2>[[reviewedArticles.length]] article<span ng-if="reviewedArticles.length != 1">s</span></h2>
+										<a href="/article/reviewed" class="button">View</a>
+								</div>
+								<div class="module box articles-submitted" ng-show="DNN.User.session && DNN.User.session.userType === DNN.User.Types.Writer">
+										<div class="heading"></div>
+										<h2>[[submittedArticles.length]] article<span ng-if="submittedArticles.length != 1">s</span></h2>
+										<a href="/article/submitted" class="button">View</a>
+								</div>
+						</section>
+
+						<!-- Center -->
+						<section class="center">
+								<div class="module feed">
+										<div class="articles">
+											<h2>Today's News</h2>
+											<div class="country-selector" style="display:none;">
+													<div class="country">
+														<div class="flag"></div>
+														<span class="code">US</span>
+														<div class="arrow"></div>
+													</div>
+													<div class="countries">
+														<div class="country">
+															<div class="flag"></div>
+															<span class="code">US</span>
+															<div class="arrow"></div>
+														</div>
+													</div>
+											</div>
+											<button ng-repeat="article in articles" onclick="window.location.href = '/stream'" class="article">
+													<mediabackground type="image" hash="article.article.cover"></mediabackground>
+													<div class="headline">[[article.article.title.text]]</div>
+													<div class="published">[[article.article.created | fromnow]]</div>
+											</button>
+										</div>
+										<div class="bottom"></div>
+								</div>
+						</section>
+
+						<!-- Right -->
+						<section class="right">
+								<div class="module box articles-assigned" ng-show="DNN.User.session && DNN.User.session.userType === DNN.User.Types.Reviewer">
+										<div class="heading"></div>
+										<h2>[[assignedArticles.length]] article<span ng-if="assignedArticles.length != 1">s</span></h2>
+										<a href="/article/assigned" class="button">View</a>
+								</div>
+								<div class="module box articles-drafted" ng-show="DNN.User.session && DNN.User.session.userType === DNN.User.Types.Writer">
+										<div class="heading"></div>
+										<h2>[[draftArticles.length]] article<span ng-if="draftArticles.length != 1">s</span></h2>
+										<a href="/article/drafts" class="button">View</a>
+								</div>
+								<div class="module box articles-read" ng-show="DNN.User.session && DNN.User.session.userType === DNN.User.Types.Reader">
+										<div class="heading"></div>
+										<h2>[[readArticles.length]] article<span ng-if="readArticles.length != 1">s</span></h2>
+										<a href="/article/read" class="button">View</a>
+								</div>
+								<a href="/article/editor" class="btn" id="compose-btn" ng-show="DNN.User.session && DNN.User.session.userType === DNN.User.Types.Writer">Write an Article</a>
+						</section>
+
+					</div>
+
+					<div id="support-links">
+						<span>Support &amp; Discussion</span>
+						<a class="support-slack" href="http://slack.dnn.media/" target="_blank">
+							<div></div>
+						</a>
+						<a class="support-telegram" href="https://t.me/DNNMedia" target="_blank">
+							<div></div>
+						</a>
+					</div>
+
+				</main>
+			</div>
+
+
+    {{/content}}
+
+		{{#content "scripts"}}
+		<script>
+				'use strict';
+				angular.module('DNN')
+					.controller('DashboardCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+								angular.element(window).on("load", function() {
+										if (handleBrowserWeb3EnabledIfNeeded()) {
+												DNN.User.handle(DNN.User.Types.Any)
+														.then(function(user) {
+																$timeout(function() {
+																		$scope.userType = user.userType
+																		$scope.DNN = DNN;
+																		$scope.articles = MockData.articles;
+																		$scope.assignedArticles = DNN.User.getAssignedArticles();
+																		$scope.draftArticles = DNN.User.getDraftArticles();
+																		$scope.readArticles = DNN.User.getReadArticles();
+																		$scope.submittedArticles = DNN.User.getSubmittedArticles();
+																		$scope.reviewedArticles = DNN.User.getReviewedArticles();
+																});
+														})
+										}
+								});
+					}]);
+	  </script>
+		{{/content}}
+{{/extend}}

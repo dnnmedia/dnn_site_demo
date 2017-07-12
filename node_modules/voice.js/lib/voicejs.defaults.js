@@ -1,0 +1,27 @@
+module.exports = {
+	baseUrl: 'https://www.google.com/voice',
+	tokenTypes: ['auth', 'rnr', 'gvx'],
+	methods: ['comm', 'get', 'set', 'settings', 'phones', 'contacts', 'name', 'greetings', 'widgets'],
+	labels: ['all', 'inbox', 'missed', 'placed', 'received', 'recorded', 'sms', 'spam', 'starred', 'trash', 'unread', 'voicemail'],
+	mobileHeader: 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3',
+	responseTypes: [ 
+		'settings_response', 
+		'conversations_response', 
+		'phonebook_response', 
+		'send_sms_response', 
+		'call_through_response',
+		'update_labels_response'
+	],
+	phoneTypes: {
+		'home': 1,
+		'mobile': 2,
+		'work': 3,
+		'gizmo': 7,
+		'googletalk': 9
+	},
+	phoneTypeMap: {}
+};
+
+for(var type in module.exports.phoneTypes){
+	module.exports.phoneTypeMap[module.exports.phoneTypes[type]] = type;
+}

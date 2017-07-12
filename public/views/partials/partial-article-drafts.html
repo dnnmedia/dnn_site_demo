@@ -1,0 +1,70 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+		<div class="page-wrapper" ng-controller="ArticlesDraftsCtrl">
+  		{{#embed "partial-header"}}{{/embed}}
+      <div id="wrapper">
+         <main id="article-drafts">
+					  <h1>Articles Drafts</h1>
+						<div class="articles" ng-show="articles.length > 0">
+								<div class="article-wrapper" ng-repeat="article in articles">
+										<div class="article" ng-click="edit([[article.article.cacheid]])">
+											<mediabackground ng-if="article.article.cover && article.article.cover != ''"  type="image" hash="article.article.cover"></mediabackground>
+											<div ng-if="!article.article.cover || article.article.cover == ''" class="image"></div>
+											<div class="body">
+	                    		<span ng-if="article.article.title.text != ''">[[article.article.title.text]]</span>
+	                    		<span ng-if="article.article.title.text == ''">Untitled</span>
+	                    		<span><i></i> Updated [[article.updated | fromnow]]</span>
+	                  		</div>
+                		</div>
+										<div class="options">
+												<button class="option option-edit" ng-click="edit(article.article.cacheid)"></button>
+												<button class="option option-delete" ng-click="remove(article.id)"></button>
+										</div>
+							</div>
+					</div>
+					<p class="empty-message" ng-show="articles.length === 0">You have <strong>0</strong> article drafts so far.</p>
+
+					<div class="bottom">
+            <button onclick="window.location.href = '/dashboard'">Back to Dashboard</button>
+          </div>
+
+        </main>
+        </div>
+    </div>
+		{{/content}}
+
+		{{#content "scripts"}}
+		<script>
+				'use strict';
+				angular.module('DNN')
+					.controller('ArticlesDraftsCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+						window["addEventListener"]('load', function() {
+								if (handleBrowserWeb3EnabledIfNeeded()) {
+									DNN.User.handle(DNN.User.Types.Writer)
+											.then(function(user) {
+													$timeout(function() {
+															$scope.DNN = DNN;
+															$scope.articles = DNN.User.getDraftArticles();
+															$scope.edit = function(cacheid) {
+																	window.location.href = "/article/editor/" + cacheid;
+															};
+															$scope.remove = function(id) {
+																var popup = new DNN.popup("warning", "", "Are you sure you want to delete this draft?", ["Cancel", "Delete"], "/assets/img/articles-trash-big.png")
+																popup.on("button", function(event) {
+																		if (event.detail.button == 1) {
+																				$timeout(function() {
+																					  DNN.Editor.removeArticleDraft(id);
+																						$scope.articles = DNN.User.getDraftArticles();
+																				});
+																		}
+																});
+																popup.show();
+															};
+													});
+											});
+									}
+								});
+					}]);
+	  </script>
+		{{/content}}
+{{/extend}}

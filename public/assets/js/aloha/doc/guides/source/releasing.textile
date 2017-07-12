@@ -1,0 +1,150 @@
+h2. Release Guide
+
+This guide will describe the aloha editor release lifecyle and practical releasing example. Please read http://nvie.com/posts/a-successful-git-branching-model/ which describes in detail the branch structure and release process as seen from git. 
+
+endprologue.
+
+h3. Release Lifecycle
+
+h4. Feature Release
+
+* Create a new hotfix branch from the +dev+ branch (eg. hotfix-0.26.x)
+* Create a maven changelog skiplist by listing all changelog entries from (eg. hotfix-0.25.x) 
+* Release from that hotfix-0.26.x branch
+
+h4. Hotfix Release
+
+A hotfix release can be done from an existing hotfix branch. The hotfix level of the version will be raised one leve. (eg. 0.20.0 -> 0.20.1). Use the jenkins task to release from the hotfix branch.
+
+NOTE: Exception: hotfix-0.24.x are still split between commercial release and gpl releases. This means you have to release the GPL version _first_. After this step the commercial version can be released. This step is not needed for 0.25.x releases. 
+
+h4. Post Release Steps
+
+* After a release has been done the tagged version will be merged into the master and dev branch.
+* A hotfix branch for the release will be created in which hotfixes can be applied.
+* The tagged version will be merged into the dev branch. Please note that the dev version should always be one level above the current major release version. (eg. current stable is 0.20.0 than the dev branch version would be 0.30.0-dev.)  
+
+
+
+
+
+h3. Practical Maven Feature Release Example For Version 0.26.x
+
+h4. Preparation
+1. Update the dev branch.
+<shell>
+  git checkout dev
+  git pull origin dev
+</shell>
+
+2. Create the new hotfix branch
+<shell>
+  git checkout -b hotfix-0.26.x
+  git push origin hotfix-0.26.x
+</shell>
+ 
+h4. Release
+
+* Use the jenkins ci server to invoke the release build from that branch (Core members only)
+
+NOTE: You may have to create a new jenkins job for this new hotfix branch.
+
+* Test the created preview release in all supported browsers.
+* Publish the release using the jenkins upload-alohaeditor-release job.
+
+h4. Post Release
+
+* Tweet about the release
+
+* Checkout the master branch and merge it with the release branch
+<shell>
+  git checkout master
+  git pull origin master 
+  git pull origin hotfix-0.26.x
+  git push origin master
+</shell>
+
+* Update the dev branch
+<shell> 
+  git checkout dev
+  git pull origin hotfix-0.26.x
+  git push origin dev
+</shell>
+
+* Update the dev branch version to 0.26.0-dev-SNAPSHOT
+<shell>
+  mvn release:update-versions -DdevelopmentVersion=0.26.0-dev-SNAPSHOT -DautoVersionSubmodules=true
+</shell>
+
+
+
+
+h3. Practical Maven Hotfix Release Example
+
+1. Switch to the hotfix-0.25.x branch and update it
+<shell>  
+  git checkout hotfix-0.25.x
+  git pull origin hotfix-0.25.x
+</shell>
+
+h4. Release
+
+* Use the jenkins ci server to invoke the release build from that branch (Core members only)
+* Test the created preview release in all supported browsers.
+* Publish the release using the jenkins upload-alohaeditor-release job.
+
+h4. Post Release Steps
+
+* Tweet about the release
+
+<shell>
+  git checkout master
+  git pull origin master 
+  git pull origin hotfix-0.25.x
+  git push origin master
+</shell>
+
+* Update the dev branch
+<shell> 
+  git checkout dev
+  git pull origin hotfix-0.25.x
+  git push origin dev
+</shell>
+
+* Update the dev branch version to 0.26.0-dev-SNAPSHOT
+<shell>
+  mvn release:update-versions -DdevelopmentVersion=0.26.0-dev-SNAPSHOT -DautoVersionSubmodules=true
+</shell>
+
+
+
+
+
+h4. Commercial Releases (0.24.x only)
+
+It is also possible to create a commercial release by specifying a different maven profile. A commerical release of aloha editor will contain different license texts.
+<shell> 
+	mvn release:prepare  -Pcommercial -Darguments=-Pcommercial
+	mvn release:perform  -Pcommercial -Darguments=-Pcommercial
+</shell>
+
+
+<javascript filename="settings.xml">
+<profile>
+	<id>commercial</id>
+	<properties>
+		<build.license>commercial</build.license>
+		<build.licenseType>Aloha Editor commercial license</build.licenseType>
+		<build.licenseUrl>-</build.licenseUrl>
+		<snapshots.repoUrl>http://REPOHOST:8080/archiva/repository/snapshots</snapshots.repoUrl>
+		<snapshots.repoName>Snapshots Repository</snapshots.repoName>
+		<snapshots.repoId>archiva.snapshots</snapshots.repoId>
+		<releases.repoUrl>http://REPOHOST:8080/archiva/repository/releases</releases.repoUrl>
+		<releases.repoName>Releases Repository</releases.repoName>
+		<releases.repoId>archiva.releases</releases.repoId>
+	</properties>
+</profile>
+</javascript>
+
+
+

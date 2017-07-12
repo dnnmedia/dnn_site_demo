@@ -1,0 +1,206 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+		<div class="page-wrapper" ng-controller="EditorCtrl">
+  		{{#embed "partial-header"}}{{/embed}}
+      <div id="wrapper">
+         <main id="article-drafts">
+
+           <div class="heading">
+              <h1>Draft</h1>
+							<span class="save-indicator">[[saveIndicator]]</span>
+           </div>
+
+          <div class="content">
+							<button class="add-media" ng-click="addArticleCover()"></button>
+              <input type="text" ng-model="article.title.text" placeholder="Title..." class="title">
+							<a href="javascript:void(0);" class="remove-media" ng-show="article && article.cover != ''" ng-click="article.cover = ''">Remove Cover</a>
+							<media ng-if="article.cover" type="image" hash="[[article.cover]]"></media>
+              <editor text="article.body.text" textmarkup="article.body.textmarkup" class="body" placeholder="Type your article..." rows="1" autoresize></editor>
+					</div>
+
+           <div class="editor-bottom">
+              <div class="editor-controls" ng-show="controls.show">
+                  <a href="javascript:void(0);" ng-click="controls.bold()" class="editor-bold"></a>
+                  <a href="javascript:void(0);" ng-click="controls.italic()" class="editor-italic"></a>
+                  <a href="javascript:void(0);" ng-click="controls.underline()" class="editor-link"></a>
+              </div>
+              <a href="javascript:void(0);" ng-click="submit()" class="button" ng-disabled="!article || article.title.text.length == 0 || article.body.text.length == 0">Submit for Review</a>
+							<a href="/guidelines" target="_blank" class="guidelines">Read DNN Guidelines</a>
+					 </div>
+
+         </main>
+        </div>
+		</div>
+		{{/content}}
+
+		{{#content "scripts"}}
+		<script>
+	    angular.module("DNN")
+				.config(["$locationProvider", function($locationProvider) {
+						$locationProvider.html5Mode({
+								enabled: true,
+								requireBase: false
+						});
+				}])
+
+	      .controller("EditorCtrl", ["$scope", "$timeout", "$location", function($scope, $timeout, $location) {
+							window["addEventListener"]('load', function() {
+									if (handleBrowserWeb3EnabledIfNeeded()) {
+										DNN.User.handle(DNN.User.Types.Writer)
+												.then(function(user) {
+														DNN.Editor.handleArticleLoad()
+															.then(function(cachedArticle) {
+																$timeout(function() {
+																			$scope.DNN = DNN;
+																			$scope.saveIndicator = "";
+
+																			if (cachedArticle) {
+																				$scope.article = cachedArticle.article;
+																			}
+																			else {
+																				$scope.article = {
+																					title: {text: ""},
+																					body: {text: "",textmarkup: ""},
+																					cover: "",
+																					user: user,
+																					cacheid: DNN.generateID()
+																				};
+																			}
+
+																			$location.path("/article/editor/"+$scope.article.cacheid).replace()
+																			DNN.Editor.storeArticleAsDraft($scope.article, $scope.article.cacheid);
+
+																			$scope.submit = function() {
+																					if ($scope.article.title.text.length > 0 && $scope.article.body.text.length > 0) {
+																							var popup = new DNN.popup("message","","Are you sure you want to submit this article for review?",["Cancel", "Submit"], "/assets/img/articles-clipboard.png");
+																							popup.on("button", function() {
+																									if (event.detail.button === 0) popup.hide();
+																									else if (event.detail.button === 1)
+																									{
+																											$scope.article.created = (new Date()).toString()
+																											DNN.Editor.removeArticleDraft($scope.article.cacheid);
+																											DNN.Article.submit($scope.article, user.account)
+																												.then(function(result) {
+																														DNN.Editor.storeArticleAsSubmitted($scope.article, result.article);
+																													 	window.location.href = "/article/preview/" + result.article
+																												})
+																												.catch(console.log);
+																									}
+																							});
+																							popup.show();
+																					}
+																			};
+
+																			$scope.addArticleCover = function() {
+																					var popup = new DNN.popup("uploader", "", "", ["Done"]);
+																					popup.on("uploaded", function(event) {
+																							var files = event.detail.files
+																							if (files && files.length > 0) {
+																								$timeout(function() {
+																									 	$scope.article.cover = files[0].hash
+																										DNN.Editor.storeArticleAsDraft($scope.article, $scope.article.cacheid);
+																								})
+																							}
+																					});
+																					popup.show();
+																			};
+
+																			$scope.cacheArticle = function() {
+																					$timeout(function() {
+																							$scope.saveIndicator = "Saved";
+																							DNN.Editor.storeArticleAsDraft($scope.article, $scope.article.cacheid);
+																					});
+																			};
+
+																 });
+														})
+								  			});
+										}
+
+
+									if (typeof Aloha === "object") {
+
+											var saveTimeout = null;
+											var $editableContent = $(".editable-content");
+
+											$scope.controls = {
+													show: false,
+													deselect: function() {
+															var element = $editableContent.get(0);
+															if (element && /INPUT|TEXTAREA/i.test(element.tagName)) {
+														    if ('selectionStart' in element) {
+														      element.selectionEnd = element.selectionStart;
+														    }
+														    element.blur();
+														  }
+
+														  if (window.getSelection) { // IE 9+ and all other browsers
+														    window.getSelection().removeAllRanges();
+														  } else if (document.selection) { // IE <=8
+														    document.selection.empty();
+															}
+															this.show = false
+													},
+													bold: function() {
+														Aloha.execCommand( 'bold', false, '' );
+														this.deselect();
+														Aloha.execCommand( 'bold', false, '' );
+													},
+													italic: function() {
+														Aloha.execCommand( 'italic', false, '' );
+														this.deselect();
+														Aloha.execCommand( 'italic', false, '' );
+													},
+													underline: function() {
+														Aloha.execCommand( 'underline', false, '' );
+														this.deselect();
+														Aloha.execCommand( 'underline', false, '' );
+													}
+											};
+
+											$scope.$watch("article.title.text", function() {
+													clearTimeout(saveTimeout);
+													$timeout(function() {
+																$scope.saveIndicator = "Saving..."
+																saveTimeout = setTimeout(function() {
+																		$scope.cacheArticle();
+																},500);
+													});
+											});
+
+											$editableContent.on("keyup", function() {
+													clearTimeout(saveTimeout);
+													$timeout(function() {
+															  $scope.saveIndicator = "Saving..."
+																saveTimeout = setTimeout(function() {
+																		$scope.cacheArticle();
+																},500);
+													});
+
+													if ($scope.controls.show) {
+															$timeout(function() {
+																	$scope.controls.show = false;
+															});
+													}
+											});
+
+											$editableContent.on("mouseup", function() {
+													var selected = window.getSelection().toString()
+													$timeout(function() {
+														$scope.controls.show = selected != "";
+													});
+											});
+
+											$editableContent.on("mousedown", function() {
+												 	var selected = window.getSelection().toString()
+													$timeout(function() {
+															$scope.controls.show = selected != "";
+													});
+											});
+
+									 }
+							});
+				}])
+	  </script>
+		{{/content}}
+{{/extend}}

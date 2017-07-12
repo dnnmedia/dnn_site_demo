@@ -1,0 +1,16 @@
+
+<header id="logged-in">
+  <a target="_self" href="/dashboard">
+      <div id="logo"></div>
+  </a>
+  <div id="user">
+      <mediabackground ng-if="DNN.User.session.user.photo && DNN.User.session.user.photo != ''"  type="image" hash="DNN.User.session.user.photo"></mediabackground>
+      <div data-type="name">[[DNN.User.session.user.fullname]] <div id="menu-down-arrow"></div></div>
+   </div>
+  <div id="user-menu">
+    <div class="options">
+      <a target="_self" href="/account" class="option">My Account</a>
+      <a target="_self" href="/type" class="option">Change account type</a>
+    </div>
+  </div>
+</header>

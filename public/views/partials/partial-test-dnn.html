@@ -1,0 +1,50 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+			<media type="image" hash="QmTE7NaFDDaNYnqiidisSsL3MzMesh7M9c71q1s6pCe4qC"></media>
+    {{/content}}
+
+		{{#content "scripts"}}
+		<script>
+      window["addEventListener"]('load', function() {
+						 if (handleBrowserWeb3EnabledIfNeeded()) {
+								DNN.User.handle(DNN.User.Types.Writer)
+										.then(function(user) {
+									  })
+						 }
+
+
+						// var popup = new DNN.popup("uploader", "", "", ["Done"]);
+						// popup.on("uploaded", function(event) {
+						// 		console.log(event.detail.files);
+						// });
+						// popup.show();
+
+						// var popup = new DNN.popup("etheraccounts", "", "", ["Refresh", "Done"]);
+						// popup.preventHide = true
+		      	// popup.on("button", function(event) {
+						// 			console.log(popup.data());
+						// 			if (event.detail.button === 0) popup.update();
+						// 			else if (event.detail.button === 1) popup.hide();
+						// });
+		      	// popup.show();
+
+						// var popup = new DNN.popup("notice", "", "This is a message that I would like you to know before continuing on to the next screen.", ["Got it"])
+						// popup.show();
+
+						// var popup = new DNN.popup("", "", "This is a message that I would like you to know before continuing on to the next screen.", ["Got it"], "/assets/img/articles-clipboard.png")
+						// popup.show();
+
+						// var popup = new DNN.popup("warning", "", "This is a message that I would like you to know before continuing on to the next screen.", ["Cancel", "Delete"], "/assets/img/articles-trash-big.png")
+						// popup.show();
+
+						// var popup = new DNN.popup("message", "", "This is a message that I would like you to know before continuing on to the next screen.", ["Cancel", "Okay"], "/assets/img/articles-clipboard.png")
+						// popup.on("hide", function() {
+						// 		var popup = new DNN.popup("message", "", "This is a message that I would like you to know before continuing on to the next screen.", ["Cancel", "Okay"], "/assets/img/articles-clipboard.png")
+						// 		popup.show();
+						// })
+						// popup.show();
+
+	  	});
+		</script>
+		{{/content}}
+{{/extend}}

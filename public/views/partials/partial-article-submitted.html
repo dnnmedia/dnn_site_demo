@@ -1,0 +1,60 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+  		<div class="page-wrapper" ng-controller="ArticlesSubmittedCtrl">
+				{{#embed "partial-header"}}{{/embed}}
+      	<div id="wrapper">
+         <main id="article-submitted">
+					  <h1>Articles Submitted</h1>
+						<div class="articles" ng-show="articles.length > 0">
+								<div class="article-wrapper" ng-repeat="article in articles">
+										<div class="article" ng-click="view(article.id)">
+											<mediabackground ng-if="article.article.cover && article.article.cover != ''"  type="image" hash="article.article.cover"></mediabackground>
+											<div ng-if="!article.article.cover || article.article.cover == ''" class="image"></div>
+											<div class="body">
+													<span ng-if="article.article.title.text != ''">[[article.article.title.text]]</span>
+	                    		<span ng-if="article.article.title.text == ''">Untitled</span>
+	                    		<span><i></i> Created [[article.article.created | fromnow]]</span>
+	                  	</div>
+                		</div>
+										<div class="state">
+												<div class="status" data-status="pending">
+													<span>Status: </span>
+													<span>Pending Review</span>
+												</div>
+										</div>
+							</div>
+					</div>
+					<p class="empty-message" ng-show="articles.length === 0">You have not submitted any articles yet.</p>
+
+					<div class="bottom">
+            	<button onclick="window.location.href = '/dashboard'">Back to Dashboard</button>
+          </div>
+
+        </main>
+        </div>
+    	</div>
+		{{/content}}
+
+		{{#content "scripts"}}
+		<script>
+				'use strict';
+				angular.module('DNN')
+					.controller('ArticlesSubmittedCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+						window["addEventListener"]('load', function() {
+								if (handleBrowserWeb3EnabledIfNeeded()) {
+									DNN.User.handle(DNN.User.Types.Writer)
+											.then(function(user) {
+													$timeout(function() {
+															$scope.DNN = DNN;
+															$scope.articles = DNN.User.getSubmittedArticles();
+															$scope.view = function(id) {
+																	window.location.href = "/article/preview/" + id;
+															};
+													});
+											});
+									}
+								});
+					}]);
+	  </script>
+		{{/content}}
+{{/extend}}

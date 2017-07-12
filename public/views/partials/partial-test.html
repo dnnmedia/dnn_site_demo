@@ -1,0 +1,421 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+				<!-- <div id="dropper"></div> -->
+				<!-- <div id="results"></div> -->
+  	{{/content}}
+
+		{{#content "scripts"}}
+			<script>
+					/*
+					|--------------------------------------------------------------------------
+					| Configuration
+					|--------------------------------------------------------------------------
+					|
+					| Used to general configuration
+					|
+					*/
+					var Config = {
+							IPFS: {
+								host: "69.114.190.228",
+								port: "5001"
+							},
+							RPC: {
+								 host: "69.114.190.228",
+								 port: "8545",
+								 use: false
+							}
+					};
+
+					/*
+					|--------------------------------------------------------------------------
+					| IPFS
+					|--------------------------------------------------------------------------
+					|
+					| Used to decentralize DNN's data
+					|
+					*/
+				   var IPFS = {};
+
+					 // Connects to IPFS Node
+					 IPFS.connect = function() {
+						 	return window.IpfsApi(Config.IPFS.host, Config.IPFS.port);
+					 };
+
+					 // Persist data to IPFS
+					 IPFS.store = function(data) {
+						   var that = this;
+							 return new Promise(function(resolve, reject) {
+									 	var Buffer = window.IpfsApi().Buffer
+								 	 that.instance.add(new Buffer(JSON.stringify(data)))
+										 	.then(function (files) {
+					                resolve({files: files});
+					            })
+					            .catch(function(err) {
+													reject({error: err});
+					            })
+								});
+					 };
+
+					 // Establish a connection with IPFS
+					 IPFS.instance = IPFS.connect();
+
+
+				 /*
+					|--------------------------------------------------------------------------
+					| Uploader
+					|--------------------------------------------------------------------------
+					|
+					| Handles drag and drop uploader
+					|
+					*/
+					var dataUriToBuffer = require('data-uri-to-buffer');
+					var dropper = document.getElementById("dropper") || {};
+					var results = document.getElementById("results") || {};
+
+					dropper.ondragenter = function (e)
+					{
+							dropper.className = 'hover';
+							e.preventDefault();
+					};
+
+					dropper.ondragover = function (e)
+					{
+							e.preventDefault();
+					};
+
+					dropper.ondragleave = function (e)
+					{
+							dropper.className = '';
+							e.preventDefault();
+					};
+
+					dropper.ondrop = function (e)
+					{
+							var files = [].slice.call(e.dataTransfer.files);
+							files.forEach(function (file) {
+									var reader = new FileReader();
+									reader.onload = function (event) {
+											setResult(file.name, event.target.result);
+									};
+									reader.readAsDataURL(file);
+							});
+							dropper.className = '';
+							e.preventDefault();
+					};
+
+					var setResult = function(name, dataURI) {
+								results.setAttribute("style", "background-image: url("+dataURI+")")
+								IPFS.store(dataURI)
+									.then(console.log)
+									.catch(console.log);
+					};
+
+
+
+
+
+
+					/*
+ 					|--------------------------------------------------------------------------
+ 					| Application
+ 					|--------------------------------------------------------------------------
+ 					|
+ 					| Initialize application upon load
+ 					|
+ 					*/
+					 window["addEventListener"]('load', function() {
+							if (typeof web3 !== "undefined") {
+
+
+										/*
+										|--------------------------------------------------------------------------
+										| EthJS Module
+										|--------------------------------------------------------------------------
+										|
+										|  Used to send messages to client via RPC
+										|
+										*/
+										var Eth = require('ethjs');
+										var eth = new Eth(Config.RPC.use ? (new web3.providers.HttpProvider("http://"+Config.RPC.host+":"+Config.RPC.port)) : web3.currentProvider );
+
+
+										/*
+										|--------------------------------------------------------------------------
+										| Smart Contract: User
+										|--------------------------------------------------------------------------
+										|
+										|  Used to associate user details stored in IPFS with the
+										|  ethereum account address
+										|
+										*/
+										let UserContractAbi = [{"constant":false,"inputs":[{"name":"id","type":"uint32"}],"name":"updateUserId","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"retrieveUserType","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"retrieveUserData","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"ipfsHash","type":"string"}],"name":"updateUserData","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"newType","type":"uint8"}],"name":"updateUserType","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"userAddress","type":"address"}],"name":"retrieveUserId","outputs":[{"name":"","type":"uint32"}],"payable":false,"type":"function"}];
+										let UserContractAddress = '0xaF869bc32aF06B48a46db9ac592b09F478Db0B94';
+										let UserContract = eth.contract(UserContractAbi).at(UserContractAddress);
+
+
+										/*
+										|--------------------------------------------------------------------------
+										| Smart Contract: DNN Token
+										|--------------------------------------------------------------------------
+										|
+										|  DNN's EC20 Constract. Used to keep track of DNN Token balances, and
+										|  execute transfers.
+										|
+										*/
+										var DNNTokenAbi = [{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event"}];
+										var DNNTokenAddress = '0x5c29BAa425a7E9B394B8534D085B262C2d93917E';
+										var DNNTokenContract = eth.contract(DNNTokenAbi).at(DNNTokenAddress);
+
+
+										/*
+										|--------------------------------------------------------------------------
+										| Smart Contract: ReviewProcess
+										|--------------------------------------------------------------------------
+										|
+										|  Handles all actions involving the review process
+										|
+										*/
+										let ReviewProcessContractAbi = [{"constant":false,"inputs":[{"name":"articleIpfsHash","type":"string"}],"name":"submitArticleForReview","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"articleId","type":"bytes32"}],"name":"checkForExpiration","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"articleIpfsHash","type":"string"},{"name":"collateralAmount","type":"uint32"}],"name":"askToVote","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"articleIpfsHash","type":"string"},{"name":"personalVote","type":"uint8"},{"name":"poolVote","type":"uint8"},{"name":"feedbackIpfsHash","type":"string"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"articleId","type":"bytes32"},{"indexed":false,"name":"articleIpfsHash","type":"string"}],"name":"ArticleSubmitted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"articleId","type":"bytes32"},{"indexed":false,"name":"articleIpfsHash","type":"string"}],"name":"VotingStarted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"articleId","type":"bytes32"},{"indexed":false,"name":"articleIpfsHash","type":"string"}],"name":"ArticleAccepted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"articleId","type":"bytes32"},{"indexed":false,"name":"articleIpfsHash","type":"string"}],"name":"ArticleRejected","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"articleId","type":"bytes32"}],"name":"VotingPeriodExpired","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"message","type":"string"}],"name":"BroadcastMessage","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"toAddress","type":"address"},{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"reason","type":"string"}],"name":"SendTokens","type":"event"}];
+										let ReviewProcessContractAddress = '0x4fdE337827f9b103592Eca051B8d90700d7Ea6a7';
+										let ReviewProcessContract = eth.contract(ReviewProcessContractAbi).at(ReviewProcessContractAddress);
+
+
+
+										let TestContractAbi = [{"constant":false,"inputs":[{"name":"decision","type":"bool"}],"name":"testEvent","outputs":[],"payable":true,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"message","type":"string"}],"name":"BroadcastMessage","type":"event"},{"anonymous":false,"inputs":[],"name":"TestBroadcast","type":"event"}]
+										let TestContractAddress = '0x51c8f69f8ceca1bcede88439ef63b9611a0bcfa6';
+										let TestContract = eth.contract(TestContractAbi).at(TestContractAddress);
+
+										/*
+										|--------------------------------------------------------------------------
+										| Account Retrieval
+										|--------------------------------------------------------------------------
+										|
+										|  Fetch the account which this user is using to interact
+										|  with DNN
+										|
+										*/
+										eth.accounts()
+												.then(function(accounts) {
+
+														/*
+														|--------------------------------------------------------------------------
+														| Token transfer
+														|--------------------------------------------------------------------------
+														|
+														| Transfers tokens from one account to another account
+														|
+														*/
+														// DNNTokenContract.transfer("0x4cc65D82d4d66b1305EAaA2a62909bd07833f85E", 1000000000, {from: "0x000e159Cf38082c043173eadA871baB614D62B80"})
+														// 	.then(function(transferTx) {
+														// 			console.log(transferTx);
+														// 	})
+														// 	.catch(console.log)
+
+														/*
+														|--------------------------------------------------------------------------
+														| Token Balance
+														|--------------------------------------------------------------------------
+														|
+														| Retrieve a balance for a particular account
+														|
+														*/
+														// DNNTokenContract.balanceOf("0x000e159Cf38082c043173eadA871baB614D62B80")
+														// DNNTokenContract.balanceOf("0x4cc65D82d4d66b1305EAaA2a62909bd07833f85E")
+														// DNNTokenContract.balanceOf(accounts[0])
+														// 	.then(function(result) {
+														// 			console.log(parseFloat(result.balance.toString())/1000);
+														// 	})
+														// 	.catch(console.log)
+
+														/*
+														|--------------------------------------------------------------------------
+														| User Creation
+														|--------------------------------------------------------------------------
+														|
+														| Creates a new user account using user's details
+														|
+														*/
+														// var user = {
+														// 	 fullname: "Dondrey Taylor",
+														// 	 email: "dondrey.taylor@gmail.com",
+														// };
+														// IPFS.store(user)
+														// 	.then(function(result) {
+														// 			UserContract.updateUserData(result.files[0].hash, {from: accounts[0]})
+														// 				.then(function(userTx) {
+														// 						console.log(userTx);
+														// 				})
+														// 				.catch(console.log);
+														//
+														// 	})
+														// 	.catch(console.log)
+
+
+														/*
+														|--------------------------------------------------------------------------
+														| Retreive User Details
+														|--------------------------------------------------------------------------
+														|
+														| Fetch details associated with this user
+														|
+														*/
+														// UserContract.retrieveUserData(accounts[0])
+														// 	.then(console.log)
+														// 	.catch(console.log);
+
+
+														/*
+														|--------------------------------------------------------------------------
+														| Change User Type
+														|--------------------------------------------------------------------------
+														|
+														| Update user type to reader, reviewer, or writer
+														|
+														*/
+														// UserContract.updateUserType(3, {from: accounts[0]})
+														// 	.then(function(userTx) {
+														// 		console.log(userTx);
+														// 	})
+														// 	.catch(console.log);
+
+
+														/*
+														|--------------------------------------------------------------------------
+														| Retreive User Type
+														|--------------------------------------------------------------------------
+														|
+														| Fetch details associated with this user
+														|
+														*/
+														// UserContract.retrieveUserType(accounts[0])
+														// 	.then(function(result) {
+														// 			console.log(result[0].toString())
+														// 	})
+														// 	.catch(console.log);
+
+
+														/*
+														|--------------------------------------------------------------------------
+														| Save Article
+														|--------------------------------------------------------------------------
+														|
+														| Persist article to IPFS
+														|
+														*/
+														// var article = {
+														// 		headline: "Title of the article goes here",
+														// 		sections: [
+														// 				{
+														// 						heading: "What is the issue?",
+														// 						body: "",
+														// 						sources: []
+														// 				},
+														// 				{
+														// 						heading: "What are the facts?",
+														// 						body: "",
+														// 						sources: []
+														// 				},
+														// 				{
+														// 						heading: "Why is this issue important?",
+														// 						body: "",
+														// 						sources: []
+														// 				}
+														// 		]
+														// };
+														// IPFS.store(article)
+														// 	.then(function(result) {
+														// 		 console.log(result.files[0].hash);
+														// 	})
+														// 	.catch(console.log);
+
+														/*
+														|--------------------------------------------------------------------------
+														| Submit Article
+														|--------------------------------------------------------------------------
+														|
+														| Sends article into review
+														|
+														*/
+														// DNNTokenContract.approve(ReviewProcessContractAddress, 100000, {from: accounts[0]})
+														// 		.then(function(approveTx) {
+														// 				console.log(approveTx);
+														//
+														// 				ReviewProcessContract.submitArticleForReview("testing", {from: accounts[0]})
+														// 						.then(console.log)
+														// 						.catch(console.log)
+														//
+														// 		})
+														// 		.catch(console.log);
+
+
+														/*
+														|--------------------------------------------------------------------------
+														| Event Handlers
+														|--------------------------------------------------------------------------
+														|
+														| Listen for broadcasts made by ReviewProcess Contract
+														|
+														*/
+														// let startingBlock = 0;
+														// let articleSubmittedEvent = ReviewProcessContract.ArticleSubmitted({}, {fromBlock: startingBlock, toBlock: 'latest'});
+														// let votingStartedEvent = ReviewProcessContract.VotingStarted({}, {fromBlock: startingBlock, toBlock: 'latest'});
+														// let articleAcceptedEvent = ReviewProcessContract.ArticleAccepted({}, {fromBlock: startingBlock, toBlock: 'latest'});
+														// let articleRejectedEvent = ReviewProcessContract.ArticleRejected({}, {fromBlock: startingBlock, toBlock: 'latest'});
+														// let messageEvent = ReviewProcessContract.BroadcastMessage({}, {fromBlock: startingBlock, toBlock: 'latest'});
+														// let sendTokensEvent = ReviewProcessContract.SendTokens({}, {fromBlock: startingBlock, toBlock: 'latest'});
+														//
+														// articleSubmittedEvent.watch(function(error, event) {
+														//   		if (event) console.log("Received ArticleSubmittedEvent event: " + event.args.message);
+														//   		else console.log(error, event);
+														// });
+														//
+														// ReviewProcessContract.BroadcastMessage().watch(function(error, event) {
+														// 		console.log(error, event);Oh
+														// });
+
+														// messageEvent.watch(function(error, event) {
+														//   		if (event) console.log("Received BroadcastMessage event: " + event.args.message);
+														//   		else console.log(error, event);
+														// });
+
+
+														// TestContract.allEvents().watch(function(error, result) {
+														// 		console.log(error, result);
+														// });
+
+														// var filter = web3.eth.filter({ address: "0x4fdE337827f9b103592Eca051B8d90700d7Ea6a7", fromBlock: "2130445", toBlock: "2131818" });
+														// var i = 0;
+														// filter.watch(function (error, result) {
+														// 		if (error) console.log(error);
+														// 		else console.log("RESULT: Filter " + i++ + ": ", result);
+														// });
+
+
+														var i = 0;
+
+														// TestContract.TestBroadcast({},{fromBlock: 0, toBlock: 'latest'})
+														// 	.watch(function (error, result) {
+														// 			console.log(arguments);
+														// 	});
+
+														setTimeout(function() {
+
+																TestContract.testEvent(true, {from: accounts[0]})
+																		.then(console.log)
+																		.catch(console.log)
+
+														 },2000);
+
+
+											})
+											.catch(console.log)
+
+								}
+	              else {
+	                 console.log("Install MetaMask or use a web3 enabled browser!")
+	              }
+
+					 })
+      </script>
+		{{/content}}
+{{/extend}}

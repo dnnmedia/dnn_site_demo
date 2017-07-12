@@ -1,0 +1,24 @@
+{{#extend "layout-base"}}
+  {{#content "body"}}
+    {{#embed "partial-header"}}{{/embed}}
+
+    <div ng-controller="TestCtrl">
+      <editor text="text" textmarkup="textmarkup"></editor>
+    </div>
+  {{/content}}
+
+  {{#content "scripts"}}
+  <script>
+    angular.module("DNN")
+      .controller("TestCtrl", ["$scope", function($scope) {
+            $scope.text = ""
+            $scope.textmarkup = ""
+
+            $scope.$watch("text", function() {
+                console.log($scope.text);
+                console.log($scope.textmarkup);
+            })
+      }])
+  </script>
+  {{/content}}
+{{/extend}}

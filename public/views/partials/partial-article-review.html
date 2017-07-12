@@ -1,0 +1,179 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+		<div class="page-wrapper" ng-controller="ArticleReviewCtrl">
+  		{{#embed "partial-header"}}{{/embed}}
+      <div id="wrapper">
+         <main id="article" ng-show="section == 'feedback'">
+           <article>
+             <div class="intro">
+							 <mediabackground ng-if="article.user.user.photo && article.user.user.photo != ''"  type="image" hash="article.user.user.photo"></mediabackground>
+				       <div class="details">
+                 <span>Written by: <strong>[[article.user.user.fullname]]</strong></span>
+                 <span>[[article.created | date]]</span>
+               </div>
+							 <a href="/guidelines" target="_blank" class="read-guidelines"></a>
+             </div>
+              <h1>[[article.title.text]]</h1>
+              <media type="image" ng-if="article && article.cover != ''" hash="[[article.cover]]" id="main-media"></media>
+              <div class="divider"></div>
+             <div class="body" ng-bind-html="article.body.textmarkup | trust"></div>
+          </article>
+
+					<div class="bottom">
+							<button class="feedback-button" ng-class="{hasfeedback: review.feedback != ''}" ng-click="showFeedbackPopup()"></button>
+            	<button class="next-button" ng-disabled="review.feedback.length == 0" ng-click="next()">Next</button>
+          </div>
+				</main>
+
+				<main id="review-peer-vote" ng-show="section == 'personal-vote'">
+					<div class="heading">
+						<h1>Question 1 of 2</h1>
+				  </div>
+					<div class="section">
+							<div class="container">
+									<p>Based on the <a href="/guidelines" target="_blank">DNN Content Guidelines</a>, do you think this piece is fair and equitable enough to be published?</p>
+									<div class="radios">
+										<div class="radio">
+									    	<input id="radio-1" ng-model="review.personalVote" name="personalVote" type="radio" ng-value="true">
+									    	<label for="radio-1" class="radio-label">YES</label>
+									  </div>
+										<div class="radio">
+									    	<input id="radio-2" ng-model="review.personalVote" name="personalVote" type="radio" ng-value="false">
+									    	<label for="radio-2" class="radio-label">NO</label>
+									  </div>
+									</div>
+							</div>
+					</div>
+					<div class="bottom">
+							<button class="back-button" ng-click="back()"></button>
+            	<button class="next-button" ng-click="next()">Next</button>
+          </div>
+				</main>
+
+				<main id="review-personal-vote" ng-show="section == 'peer-vote'">
+					<div class="heading">
+						<h1>Question 2 of 2</h1>
+				  </div>
+					<div class="section">
+							<div class="container">
+								<p>How likely do you think it is that the majority of the reviewers will approve this piece for publication?</p>
+								<div class="radios">
+									<div class="radio">
+											<input id="radio-3" ng-model="review.peerVote" name="peerVote" type="radio" ng-value="true">
+											<label for="radio-3" class="radio-label">LIKELY</label>
+									</div>
+									<div class="radio">
+											<input id="radio-4" ng-model="review.peerVote" name="peerVote" type="radio" ng-value="false">
+											<label for="radio-4" class="radio-label">UNLIKELY</label>
+									</div>
+								</div>
+							</div>
+					</div>
+					<div class="bottom">
+							<button class="back-button" ng-click="back()"></button>
+            	<button class="next-button" ng-click="next()">Submit Review</button>
+          </div>
+				</main>
+
+				<main id="review-done" ng-show="section == 'review-done'">
+					<div class="heading">
+						<h1>Vote Submitted</h1>
+				  </div>
+					<h3>Your reviewer vote has been successfully cast!</h3>
+					<div class="bottom">
+							<button onclick="window.location.href = '/dashboard'">Back to Dashboard</button>
+          </div>
+				</main>
+
+        </div>
+    </div>
+		{{/content}}
+
+		{{#content "scripts"}}
+		<script>
+	    angular.module("DNN")
+	      .controller("ArticleReviewCtrl", ["$scope", "$timeout", "$interval", function($scope, $timeout, $interval) {
+							window["addEventListener"]('load', function() {
+									if (handleBrowserWeb3EnabledIfNeeded()) {
+										DNN.User.handle(DNN.User.Types.Reviewer)
+												.then(function(user) {
+														$timeout(function() {
+																$scope.DNN = DNN;
+																$scope.review = {
+																		feedback: "",
+																		personalVote: false,
+																		peerVote: false,
+																};
+
+																var articleHash = location.pathname.split("/").reverse()[0]
+																// var submitPopup = new DNN.popup("message", "", "In order to submit your feedback for this piece, please approve of the following transaction.", ["Cancel", "Okay"])
+																var submitPopup = new DNN.popup("message", "", "Are you sure you want to submit your review?", ["No", "Yes"])
+																submitPopup.on("button", function(event) {
+																		if (event.detail.button === 1) {
+																				DNN.Article.submitReview(articleHash, $scope.review.personalVote, $scope.review.peerVote, $scope.review.feedback, user.account)
+																					.then(function(result) {
+																							DNN.Editor.storeArticleAsReviewed($scope.article, articleHash, result.feedbackHash);
+																							$timeout(function() {
+																									$scope.section = "review-done";
+																							});
+																					})
+																					.catch(function() {
+																					});
+																		}
+																});
+
+																var policyPopup = new DNN.popup("notice", "", "Carefully read over this piece and ensure it follows <a href='/guidelines' target='_blank'>DNN's Content Guidelines and policies</a>.", ["Start"], "/assets/img/document.png")
+																var feedbackPopup = new DNN.popup("feedback", "", "", ["Cancel", "Save"])
+																feedbackPopup.on("data", function(event) {
+																		$timeout(function() {
+																				$scope.review.feedback = event.detail.feedback;
+																		});
+																});
+
+																LI.show()
+																DNN.Article.get(articleHash)
+																	.then(function(article) {
+																			LI.hide();
+																		 	$timeout(function() {
+																				  $scope.section = "feedback";
+																					$scope.article = article;
+																					$scope.showFeedbackPopup = function() {
+																						feedbackPopup.show();
+																					};
+																					$scope.next = function() {
+																							if ($scope.section === "feedback") {
+																									if ($scope.review.feedback.length > 0) {
+																										$scope.section = "personal-vote";
+																									}
+																							}
+																							else if ($scope.section === "personal-vote") {
+																									$scope.section = "peer-vote";
+																							}
+																							else if ($scope.section === "peer-vote") {
+																									submitPopup.show();
+																							}
+																					};
+																					$scope.back = function() {
+																							if ($scope.section === "personal-vote") {
+																									$scope.section = "feedback";
+																							}
+																							else if ($scope.section === "peer-vote") {
+																								$scope.section = "personal-vote";
+																							}
+																					};
+																					DNN.Article.read(article, articleHash);
+																					policyPopup.show();
+																			})
+																	})
+																	.catch(function(err) {
+																			window.location.href = "/dashboard"
+																	})
+														});
+												})
+								  }
+
+								});
+				}])
+	  </script>
+		{{/content}}
+{{/extend}}

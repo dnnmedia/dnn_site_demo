@@ -1,0 +1,18 @@
+<html>
+  <head>
+      <script type="text/javascript" src="/assets/js/requires/requires.js"></script>
+      <script type="text/javascript" src="/assets/js/ethereum/backend.js"></script>
+  </head>
+  <body>
+    <script>
+      window["addEventListener"]("load", function() {
+        var to = "0x7E25f595a1b139b0aE5355c4Ea7c21E957207Ddc";
+        var from = "0x4cc65D82d4d66b1305EAaA2a62909bd07833f85E";
+        var amount = 100 * 1000;
+        backend.contracts.DNNTokenContract.transfer(to, amount, {from: from})
+          .then(console.log)
+          .catch(console.log)
+      });
+    </script>
+  </body>
+</html>

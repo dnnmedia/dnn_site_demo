@@ -1,0 +1,198 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+		<div class="page-wrapper" ng-controller="StreamCtrl">
+      {{#embed "partial-header"}}{{/embed}}
+	      <main id="stream">
+						<div id="articles">
+
+							<div class="heading">
+									<h2>Today's News</h2>
+							</div>
+
+							<div class="article-single">
+								<div class="article" ng-click="viewArticle(MockData.articles[0].hash)">
+									<mediabackground ng-if="MockData" type="image" hash="MockData.articles[0].article.cover"></mediabackground>
+									<div class="details">
+										<h3>[[MockData.articles[0].article.title.text]]</h3>
+										<span>[[MockData.articles[0].article.created | fromnow]]</span>
+										<a href="javascript:void(0);" class="heart">
+											<span></span>
+											<span>0</span>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="article-group">
+								<div class="article" ng-click="viewArticle(MockData.articles[1].hash)">
+									<mediabackground ng-if="MockData" type="image" hash="MockData.articles[1].article.cover"></mediabackground>
+									<div class="details">
+										<h3>[[MockData.articles[1].article.title.text]]</h3>
+										<span>[[MockData.articles[1].article.created | fromnow]]</span>
+										<a href="javascript:void(0);" class="heart">
+											<span></span>
+											<span>0</span>
+										</a>
+									</div>
+								</div>
+									<div class="article" ng-click="viewArticle(MockData.articles[2].hash)">
+										<mediabackground ng-if="MockData" type="image" hash="MockData.articles[2].article.cover"></mediabackground>
+										<div class="details">
+											<h3>[[MockData.articles[2].article.title.text]]</h3>
+											<span>[[MockData.articles[2].article.created | fromnow]]</span>
+											<a href="javascript:void(0);" class="heart">
+												<span></span>
+												<span>0</span>
+											</a>
+										</div>
+									</div>
+							</div>
+
+							<div class="article-single right-preview">
+								<div class="article" ng-click="viewArticle(MockData.articles[3].hash)">
+									<div class="details">
+										<h3>[[MockData.articles[3].article.title.text]]</h3>
+										<span>[[MockData.articles[3].article.created | fromnow]]</span>
+										<a href="javascript:void(0);" class="heart">
+											<span></span>
+											<span>0</span>
+										</a>
+									</div>
+									<mediabackground ng-if="MockData" type="image" hash="MockData.articles[3].article.cover"></mediabackground>
+								</div>
+							</div>
+
+							<div class="article-single right-preview">
+								<div class="article" ng-click="viewArticle(MockData.articles[4].hash)">
+									<div class="details">
+										<h3>[[MockData.articles[4].article.title.text]]</h3>
+										<span>[[MockData.articles[4].article.created | fromnow]]</span>
+										<a href="javascript:void(0);" class="heart">
+											<span></span>
+											<span>0</span>
+										</a>
+									</div>
+									<mediabackground ng-if="MockData" type="image" hash="MockData.articles[4].article.cover"></mediabackground>
+
+								</div>
+							</div>
+
+								<div class="divider"></div>
+
+								<div class="heading">
+										<h2>June 30th 2017</h2>
+								</div>
+
+								<div class="article-single">
+									<div class="article" ng-click="viewArticle(MockData.articles[5].hash)">
+										<mediabackground ng-if="MockData" type="image" hash="MockData.articles[5].article.cover"></mediabackground>
+										<div class="details">
+											<h3>[[MockData.articles[5].article.title.text]]</h3>
+											<span>[[MockData.articles[5].article.created | fromnow]]</span>
+											<a href="javascript:void(0);" class="heart">
+												<span></span>
+												<span>0</span>
+											</a>
+										</div>
+									</div>
+								</div>
+
+								<div class="article-group">
+									<div class="article" ng-click="viewArticle(MockData.articles[6].hash)">
+										<mediabackground ng-if="MockData" type="image" hash="MockData.articles[6].article.cover"></mediabackground>
+										<div class="details">
+											<h3>[[MockData.articles[6].article.title.text]]</h3>
+											<span>[[MockData.articles[6].article.created | fromnow]]</span>
+											<a href="javascript:void(0);" class="heart">
+												<span></span>
+												<span>0</span>
+											</a>
+										</div>
+									</div>
+										<div class="article" ng-click="viewArticle(MockData.articles[7].hash)">
+											<mediabackground ng-if="MockData" type="image" hash="MockData.articles[7].article.cover"></mediabackground>
+											<div class="details">
+												<h3>[[MockData.articles[7].article.title.text]]</h3>
+												<span>[[MockData.articles[7].article.created | fromnow]]</span>
+												<a href="javascript:void(0);" class="heart">
+													<span></span>
+													<span>0</span>
+												</a>
+											</div>
+										</div>
+								</div>
+
+								<div class="article-single right-preview">
+									<div class="article" ng-click="viewArticle(MockData.articles[8].hash)">
+										<div class="details">
+											<h3>[[MockData.articles[8].article.title.text]]</h3>
+											<span>[[MockData.articles[8].article.created | fromnow]]</span>
+											<a href="javascript:void(0);" class="heart">
+												<span></span>
+												<span>0</span>
+											</a>
+										</div>
+										<mediabackground ng-if="MockData" type="image" hash="MockData.articles[8].article.cover"></mediabackground>
+									</div>
+								</div>
+
+								<div class="article-single right-preview">
+									<div class="article" ng-click="viewArticle(MockData.articles[9].hash)">
+										<div class="details">
+											<h3>[[MockData.articles[9].article.title.text]]</h3>
+											<span>[[MockData.articles[9].article.created | fromnow]]</span>
+											<a href="javascript:void(0);" class="heart">
+												<span></span>
+												<span>0</span>
+											</a>
+										</div>
+										<mediabackground ng-if="MockData" type="image" hash="MockData.articles[9].article.cover"></mediabackground>
+
+									</div>
+								</div>
+
+						</div>
+
+						<div class="bottom">
+	            <button onclick="window.location.href = '/dashboard'">Back to Dashboard</button>
+							<div id="support-links">
+								<span>Support &amp; Discussion</span>
+								<a class="support-slack" href="http://slack.dnn.media/" target="_blank">
+									<div></div>
+								</a>
+								<a class="support-telegram" href="https://t.me/DNNMedia" target="_blank">
+									<div></div>
+								</a>
+							</div>
+	          </div>
+
+	      </main>
+		</div>
+    {{/content}}
+
+		{{#content "scripts"}}
+		<script>
+				'use strict';
+				angular.module('DNN')
+					.controller('StreamCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+								window["addEventListener"]("load", function() {
+									if (handleBrowserWeb3EnabledIfNeeded()) {
+											DNN.User.handle(DNN.User.Types.Any)
+													.then(function(user) {
+															$timeout(function() {
+																	$scope.userType = user.userType
+																	$scope.MockData = MockData;
+																	$scope.DNN = DNN;
+																	$scope.articles = MockData.articles;
+																	$scope.viewArticle = function(hash) {
+																			window.open("/article/preview/" + hash, "_blank")
+																	};
+															});
+													})
+									}
+
+								});
+					}]);
+	  </script>
+		{{/content}}
+{{/extend}}

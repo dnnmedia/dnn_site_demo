@@ -1,0 +1,99 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+		<div class="page-wrapper" ng-controller="WalletCtrl">
+      {{#embed "partial-header"}}{{/embed}}
+      <div id="wrapper">
+        <a href="javascript:void(0);">
+            <div id="logo"></div>
+        </a>
+        <main id="wallet">
+          <div class="heading">
+            <h1>Wallet</h1>
+            <div class="options">
+                <a href="javascript:void(0);" class="option" ng-click="section = 'balance'" ng-class="{selected: section == 'balance'}">My Balance</a>
+                <a href="javascript:void(0);" class="option" ng-click="section = 'transactions'" ng-class="{selected: section == 'transactions'}">My Transactions</a>
+                <a href="javascript:void(0);" class="option" ng-click="section = 'buy'" ng-class="{selected: section == 'buy'}">Buy DNN tokens</a>
+            </div>
+          </div>
+
+          <div class="sections">
+
+            <div class="section" data-section="balance" ng-class="{visible: section == 'balance'}">
+              <div class="container">
+                <i></i>
+                <h3>[[balance]] DNN</h3>
+                <span>= 0 USD</span>
+              </div>
+            </div>
+
+            <div class="section" data-section="transactions" ng-class="{visible: section == 'transactions'}">
+              <div class="container">
+								  <p>To view your complete history of transactions, please refer to either <a href="https://metamask.io/" target="_blank">MetaMask</a> or <a href="https://parity.io/" target="_blank">Parity</a> for further details.</p>
+							</div>
+						</div>
+
+						<div class="section" data-section="buy" ng-class="{visible: section == 'buy'}">
+								<div class="top">
+										<div class="left">
+												<p>
+														<span class="option-number">1</span> Send <strong>0.001 KOVETH</strong> to the following address to purchase DNN tokens:
+														<qrcode code="faucetaddress"></qrcode>
+												</p>
+												<div></div>
+												<small>[[faucetaddress]]</small>
+										</div>
+										<div class="center">OR</div>
+										<div class="right">
+												<p>
+														<span class="option-number">2</span> Find others who are selling DNN tokens for Ether.
+												</p>
+												<a href="javascript:void(0);" class="button disabled">Buy with Shapeshift</a>
+										</div>
+								</div>
+								<div class="bottom">
+										<span>Don't have Ether?</span>
+										<a href="/alpha/access/instructions" target="_blank">Find out where to get some</a>.
+								</div>
+            </div>
+
+					</div>
+
+					<small id="wallet-address">Your DNN wallet address is <strong>[[wallet]]</strong> <a href="javascript:void(0);" ng-click="changeETHAccount()">(Change ETH Account)</a></small>
+
+					<div class="bottom">
+							<button onclick="window.location.href = '/dashboard'">Back to Dashboard</button>
+					</div>
+				</main>
+      </div>
+    </div>
+		{{/content}}
+
+		{{#content "scripts"}}
+		<script>
+				'use strict';
+
+				angular.module('DNN')
+					.controller('WalletCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+								angular.element(window).on("load", function() {
+										$scope.section = "balance"
+										$scope.changeETHAccount = function() {
+												DNN.User.showEthAccounts();
+										};
+
+										if (handleBrowserWeb3EnabledIfNeeded()) {
+												DNN.User.handle(DNN.User.Types.Any)
+														.then(function(user) {
+																$timeout(function() {
+																		$scope.DNN = DNN;
+																		$scope.wallet = user.account
+																		$scope.balance = user.balance
+																		$scope.faucetaddress = DNN.constants.token.faucetaddress
+																})
+														})
+										}
+							 });
+
+					}])
+			</script>
+		{{/content}}
+{{/extend}}

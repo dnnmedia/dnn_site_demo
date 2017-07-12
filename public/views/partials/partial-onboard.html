@@ -1,0 +1,307 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+      <div id="wrapper" ng-controller="OnboardCtrl">
+        <a href="/dashboard">
+						<div id="logo"></div>
+        </a>
+
+				<a href="/dashboard" id="signin-option">Already have an account? <strong>Sign in</strong>.</a>
+
+				<main id="onboard">
+					<div id="sections">
+
+						<!-- No Web3 -->
+						<section data-section="noweb3" ng-class="{visible: section == 'noweb3'}">
+							  <h1>Browser Not Supported</h1>
+								<p>To access the DNN Alpha and interact with the blockchain, please use a web3-enabled browser or client such as <a href="https://github.com/ethereum/mist" target="_blank">Mist</a> or <a href="https://parity.io/" target="_blank">Parity</a>. If you would like to access DNN from a traditional browser such as Chrome or Firefox, install <a href="http://metamask.io" target="_blank">MetaMask</a>.</p>
+								<p>For more information about where to find and how to install a web3 browser, please visit the DNN's <a href="http://dnn.media/faq" target="_blank">FAQ</a>.</p>
+						</section>
+
+						<!-- Setup -->
+						<section data-section="setup" ng-class="{visible: section == 'setup'}">
+							<h1>DNN Alpha Checklist</h1>
+							<p>There are a few things you will need to have setup in order to proceed to access DNN. <a href="/alpha/access/instructions" target="_blank">Here is a detailed set of instructions</a>.</p>
+							<div class="steps">
+										<div class="step" ng-class="{done: checklist.hasBrowser}">
+												<div class="num">
+														<div class="background"></div>
+														<span>1</span>
+														<div class="check"></div>
+												</div>
+												<p>To interact with DNN, you will need to use an Ethereum supported browser. Install <a href="/alpha/access/instructions#parity-setup" target="_blank">Parity</a> or use the <a href="/alpha/access/instructions#metamask-setup" target="_blank">MetaMask</a> browser plugin (Chrome and Firefox only).</p>
+										</div>
+										<div class="step" ng-class="{done: checklist.hasStorage}">
+												<div class="num">
+														<div class="background"></div>
+														<span>2</span>
+												</div>
+												<p>DNN uses your browser to store articles retrieved from the DNN network. Enable Local Storage in your browser. <a href="/alpha/access/instructions#enable-localstorage" target="_blank">How do I enable local storage?</a></p>
+										</div>
+										<div class="step" ng-class="{done: checklist.hasKovan}">
+												<div class="num">
+														<div class="background"></div>
+														<span>3</span>
+												</div>
+												<p>To get DNN, you will need some Kovan Ether. To get Kovan Ether refer <a href="/alpha/access/instructions" target="_blank">here</a>.</p>
+										</div>
+								</div>
+								<button ng-disabled="!isCheckListDone()" ng-click="checklistContinue()">Continue</button>
+								</section>
+
+						<!-- Get Started -->
+						<section data-section="getstarted" ng-class="{visible: section == 'getstarted'}">
+							  <h1>Hello!</h1>
+								<p>Is this your first time trying the DNN demo or have you been here before?</p>
+								<button id="new-btn" ng-click="section = 'welcome'">I'm new</button>
+								<button id="new-btn" ng-click="section = 'welcome'">I'm registered</button>
+						</section>
+
+						<!-- Welcome -->
+						<section data-section="welcome" ng-class="{visible: section == 'welcome'}">
+							  <div id="background"></div>
+								<h1>Welcome to the DNN demo</h1>
+								<p>This demo is meant to be a very simple proof of concept, with Ethereum smart contract functionality in place. We will continue to improve upon it frequently, as we work toward building DNN in its entirety. <em>Note that certain important aspects are unfinished or haven’t been added yet.</em> The placeholder articles do not currently reflect what will be seen on DNN when it is finished.</p>
+								<button ng-click="section = 'name'">Begin</button>
+								<div id="page-indicator">
+										<div class="current"></div>
+										<div></div>
+										<div></div>
+										<div></div>
+										<div></div>
+										<div></div>
+								</div>
+						</section>
+
+						<!-- Full Name -->
+						<section data-section="name" ng-class="{visible: section == 'name'}">
+							<h1>Let's Begin</h1>
+							<p>We will need your full name, to start with.</p>
+							<div class="field">
+									<input type="text" placeholder="Full Name" ng-model="user.fullname">
+							</div>
+							<button ng-disabled="user.fullname == ''" ng-click="section = 'signup'">Next</button>
+							<div id="page-indicator">
+									<div></div>
+									<div class="current"></div>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+							</div>
+						</section>
+
+						<!-- Sign up -->
+						<section data-section="signup" ng-class="{visible: section == 'signup'}">
+							<h1>Sign up for DNN</h1>
+							<p>Please enter your email.</p>
+							<div class="field">
+									<input type="email" placeholder="Email" ng-model="user.email">
+							</div>
+							<small>Your email will only be used for nofication purposes and nothing more.</small>
+							<button ng-disabled="user.email == ''" ng-click="section = 'selecttype'">Next</button>
+							<div id="page-indicator">
+									<div></div>
+									<div></div>
+									<div></div>
+									<div class="current"></div>
+									<div></div>
+									<div></div>
+							</div>
+						</section>
+
+						<!-- Select Type -->
+						<section data-section="selecttype" ng-class="{visible: section == 'selecttype'}">
+							<h1>Select your user type</h1>
+							<p>Your user type can be changed at any time for the purposes of this demo.</p>
+							<div id="types">
+									<div class="type" ng-click="user.type = 'reader'" ng-class="{selected: user.type == 'reader'}"><div data-type="reader"></div></div>
+									<div class="type" ng-click="user.type = 'writer'" ng-class="{selected: user.type == 'writer'}"><div data-type="writer"></div></div>
+									<div class="type" ng-click="user.type = 'reviewer'" ng-class="{selected: user.type == 'reviewer'}"><div data-type="reviewer"></div></div>
+							</div>
+							<button ng-click="section = 'notify'">Next</button>
+							<div id="page-indicator">
+									<div></div>
+									<div></div>
+									<div></div>
+									<div class="current"></div>
+									<div></div>
+									<div></div>
+							</div>
+						</section>
+
+						<!-- Save account -->
+						<section data-section="notify" ng-class="{visible: section == 'notify'}">
+							<h1>Save Account Details</h1>
+							<p>To finalize the creation of your account on the DNN network, a small amount of kovan ether will be required. You can use MetaMask or Parity to get some!</p>
+							<button ng-click="save()">Save</button>
+							<div id="page-indicator">
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div class="current"></div>
+									<div></div>
+							</div>
+						</section>
+
+						<!-- Done -->
+						<section data-section="done" ng-class="{visible: section == 'done'}">
+							<h1>You're all set, [[user.fullname]]</h1>
+							<p>You are now ready to try the DNN demo! If you have any feedback or questions, please don't hesitate to contact us at <strong>contact@dnn.media</strong></p>
+							<button onclick="window.location.href = '/dashboard'">Proceed to dashboard</button>
+							<div id="page-indicator">
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div class="current"></div>
+							</div>
+						</section>
+
+				</main>
+      </div>
+    {{/content}}
+
+		{{#content "scripts"}}
+		<script>
+			'use strict';
+			angular.module('DNN')
+				.controller('OnboardCtrl', ['$scope', '$location', '$timeout', '$interval', function($scope, $location, $timeout, $interval) {
+							window["addEventListener"]("load", function() {
+								if (isBrowserWeb3Enabled()) {
+										DNN.User.handle(DNN.User.Types.Any, true, true, true)
+												.then(function(user) {
+
+														if (user) window.location.href = "/dashboard";
+
+														var handleLocation = function() {
+															switch ($location.url()) {
+																		case "/getstarted":
+																			if (isBrowserWeb3Enabled()) $scope.section = "welcome";
+																			else $scope.section = "noweb3";
+																			break;
+
+																		case "/noweb3":
+																			if (isBrowserWeb3Enabled()) $scope.section = "welcome"
+																			else $scope.section = "noweb3";
+																			break;
+
+																		default:
+																		case "/setup":
+																			if (isBrowserWeb3Enabled()) $scope.section = "setup"
+																			else $scope.section = "noweb3";
+																			break;
+
+																		case "/welcome":
+																			if (isBrowserWeb3Enabled()) $scope.section = "welcome";
+																			else $scope.section = "noweb3";
+																			break;
+
+																		case "/name":
+																			if (isBrowserWeb3Enabled()) $scope.section = "name";
+																			else $scope.section = "noweb3";
+																			break;
+
+																		case "/signup":
+																			if (isBrowserWeb3Enabled()) $scope.section = "signup";
+																			else $scope.section = "noweb3";
+																			break;
+
+																		case "/selecttype":
+																			if (isBrowserWeb3Enabled()) $scope.section = "selecttype";
+																			else $scope.section = "noweb3";
+																			break;
+
+																		case "/notify":
+																			if (isBrowserWeb3Enabled()) $scope.section = "notify";
+																			else $scope.section = "noweb3";
+																			break;
+
+																		case "/done":
+																			if (isBrowserWeb3Enabled()) $scope.section = "done";
+																			else $scope.section = "noweb3";
+																			break;
+																	}
+															};
+
+														$scope.user = {
+																fullname: "",
+																email: "",
+																type: "writer"
+														};
+
+														$scope.checklist = {
+															 hasBrowser: false,
+															 hasStorage: false,
+															 hasKovan: false
+														};
+
+														$scope.isCheckListDone = function() {
+															 	return true;
+														};
+
+														$scope.checklistContinue = function() {
+																if ($scope.isCheckListDone()) {
+																	$scope.section = 'welcome';
+																}
+														};
+
+														$scope.section = "";
+
+														$scope.save = function() {
+
+																	$.post("//dnn.media/save/email", {email: $scope.user.email});
+
+																	LI.show()
+																	IPFS.store({email: $scope.user.email,fullname: $scope.user.fullname})
+																			.then(function(res) {
+
+																								// Retrieve eth accounts
+																							 backend.eth.accounts().then(function(accs) {
+
+																									  // Use the eth account to persist user data
+																										backend.contracts.UserContract.updateUserData(res.files[0].hash, {from:accs[0]})
+																												.then(function(userTx) {
+																													 		LI.hide();
+																															$timeout(function() {
+																																	$scope.section = "done";
+																															});
+
+																												})
+																												.catch(function(err) {
+																															LI.hide();
+																												})
+																								});
+																			})
+																		  .catch(function(err) {
+																					LI.hide();
+																					console.log(err);
+																			});
+														};
+
+														$scope.$watch("section", function(newVal, oldVal) {
+																if (newVal != oldVal && oldVal != "") $location.url($scope.section);
+														});
+
+														$scope.$apply(function() {
+																handleLocation();
+														});
+
+													  $scope.$on('$locationChangeStart', function(event, next, current) {
+															 	handleLocation();
+														});
+
+											});
+									}
+								else {
+										$timeout(function() {
+											 $scope.section = "noweb3";
+										})
+								}
+						});
+
+				}]);
+		</script>
+		{{/content}}
+{{/extend}}
