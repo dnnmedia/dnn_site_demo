@@ -1,1 +1,0 @@
- headerids: Fixed generation of invalid HTML ID’s for headings when the headings start with a number.

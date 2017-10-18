@@ -1,3 +1,0 @@
-Using the content rules whitelist functionality would hide the removeFormat
-button from the format-plugin. This has been fixed, and removeFormat ignores
-the content rules (which also means that it cannot be blacklisted).

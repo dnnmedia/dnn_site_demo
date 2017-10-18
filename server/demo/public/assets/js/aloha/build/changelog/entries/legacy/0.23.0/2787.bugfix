@@ -1,1 +1,0 @@
- link-plugin: Fix metaKey + click doesn't follow link (still doesn't work on IE7)

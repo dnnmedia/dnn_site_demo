@@ -1,1 +1,0 @@
- textcolor-plugin: Introducing the textcolor plugin, which will allow you to apply color to sections of text

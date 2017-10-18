@@ -1,1 +1,0 @@
- validation-plugin: Introducing [validation plugin](http://www.aloha-editor.org/guides/plugin_validation.html)

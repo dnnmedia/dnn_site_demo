@@ -1,2 +1,0 @@
-Performing unformatting on a selection adjacent to a terminal whitespace sometimes caused a <br> to be erroneously inserted.
-This behaviour has been fixed.

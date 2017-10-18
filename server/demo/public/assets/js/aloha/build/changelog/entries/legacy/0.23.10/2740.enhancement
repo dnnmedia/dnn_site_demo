@@ -1,1 +1,0 @@
- The editable Class now publish the message aloha.editable.deactivated via PubSub

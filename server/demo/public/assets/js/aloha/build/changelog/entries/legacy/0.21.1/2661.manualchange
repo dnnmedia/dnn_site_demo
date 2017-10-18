@@ -1,1 +1,0 @@
-The API Method setActiveButton() of the MultiSplit component changed: the parameter must be the name of the button to set active, not the index.

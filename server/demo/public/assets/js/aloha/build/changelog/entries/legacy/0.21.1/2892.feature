@@ -1,1 +1,0 @@
- UiPlugin API addition. UiPlugin.showToolbar() was added to the UiPlugin API. This function provides better control over when the toolbar is shown.

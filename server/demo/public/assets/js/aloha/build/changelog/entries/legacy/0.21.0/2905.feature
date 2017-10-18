@@ -1,1 +1,0 @@
- The images browser plugin was added.

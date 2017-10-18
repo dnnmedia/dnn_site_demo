@@ -1,2 +1,0 @@
-Initializing an editable containing many blocks could cause long running script
-in the browser, which has been fixed now.

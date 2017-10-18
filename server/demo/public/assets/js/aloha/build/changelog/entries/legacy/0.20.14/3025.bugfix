@@ -1,1 +1,0 @@
- core: Fixed strange cursor behaviour when using [BACKSPACE] to delete the first character in a text node, using IE9. 

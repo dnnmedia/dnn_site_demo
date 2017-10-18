@@ -1,2 +1,0 @@
-When an anchor is added to a link, while the href is 'http://' or 'https://', the
-href will be cleared.

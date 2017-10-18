@@ -1,1 +1,0 @@
- core: We now log a warning to the console if repositories run into timeouts.

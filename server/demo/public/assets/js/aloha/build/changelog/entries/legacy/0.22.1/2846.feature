@@ -1,1 +1,0 @@
- abbr-plugin: We added a remove abbreviation button to make the functionality more consistent with the wai-lang plugin.

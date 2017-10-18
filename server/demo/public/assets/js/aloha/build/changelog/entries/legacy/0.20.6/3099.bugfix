@@ -1,1 +1,0 @@
- floatingmenu: fixed floating menu's reading of configuration values so that they are parsed into numbers.

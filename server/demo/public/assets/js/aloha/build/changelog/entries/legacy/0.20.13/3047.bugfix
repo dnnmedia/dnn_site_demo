@@ -1,1 +1,0 @@
- citation plugin: Fixed javascript errors on initialization and possible endless loop when adding inline citations.

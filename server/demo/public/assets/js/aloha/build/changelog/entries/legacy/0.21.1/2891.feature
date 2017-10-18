@@ -1,1 +1,0 @@
- Toolbar configurability was extended. The now Aloha.toolbar.settings.tab[i].exclusive property was implemented. See the ui guide for more information.

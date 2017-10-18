@@ -1,2 +1,0 @@
-The handling of @&amp;lt;br&amp;gt;@ tags in empty paragraphs was consistent
-across browsers. This has been fixed.

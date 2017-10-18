@@ -1,1 +1,0 @@
- All repositories have been queried even if a target repository has been specified. Now only the specified repository is queried.

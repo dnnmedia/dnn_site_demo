@@ -1,3 +1,0 @@
-link plugin: When typing the URL for a link and then pressing Enter,
-              it creates the link but you must click tow times to open the link
-              properties. The fix allows the user to click just once.

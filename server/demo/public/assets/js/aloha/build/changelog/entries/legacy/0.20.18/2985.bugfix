@@ -1,1 +1,0 @@
- table-plugin: New Captions are now added as first child of the table (before the tbody), according to the HTML5 specification.

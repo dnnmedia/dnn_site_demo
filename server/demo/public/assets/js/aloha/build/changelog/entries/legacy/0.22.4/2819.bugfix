@@ -1,1 +1,0 @@
- core/plugins: Fixed plugin initialization to ensure that the "aloha-ready" event is not fired before all plugins have notified that they are fully initialized.

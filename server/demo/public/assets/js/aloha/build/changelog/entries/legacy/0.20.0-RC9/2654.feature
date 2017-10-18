@@ -1,1 +1,0 @@
-listenforcer-plugin: The listenforcer plugin removes any non-list top-level elements to ensure that an editable in which lists are enforced will contain exactly one list as the only immediate child of the editable.

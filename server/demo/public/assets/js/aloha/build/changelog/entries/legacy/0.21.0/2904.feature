@@ -1,1 +1,0 @@
- plugin extra/proxy: as multiple plugins need a proxy script to access external resources there's now one for all to use

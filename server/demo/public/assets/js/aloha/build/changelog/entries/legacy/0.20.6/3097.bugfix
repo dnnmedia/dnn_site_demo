@@ -1,1 +1,0 @@
- link: fixed a bug in the link list static repository plugin that caused Internet Explorer to fail handling repository links.

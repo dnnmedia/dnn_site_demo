@@ -1,1 +1,0 @@
- tables: Selecting inside of tables will no longer results in sometimes having the selection deselected on mouseup in IE.

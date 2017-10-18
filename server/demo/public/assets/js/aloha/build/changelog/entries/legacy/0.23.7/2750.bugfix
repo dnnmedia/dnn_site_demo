@@ -1,1 +1,0 @@
- (core/pluginmanager) Initialization no longer stalls when a configured plugin is disabled. 

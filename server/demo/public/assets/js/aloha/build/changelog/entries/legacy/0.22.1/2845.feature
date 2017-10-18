@@ -1,1 +1,0 @@
- repository browser: If one of the repositories runs into a timeout during query, the browser will now call the method handleTimeout().

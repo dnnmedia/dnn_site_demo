@@ -1,1 +1,0 @@
- align-plugin: the align plugin is now capable of aligning table cell contents

@@ -1,2 +1,0 @@
-The emptylink-plugin will now also highlight links where the value of the href attribute is "http://".
-The reason behind this is that the href value for newly inserted links with the link plugin is "http://" per default.

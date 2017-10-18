@@ -1,1 +1,0 @@
- table plugin: fixes bug in IE7 that second click on table cell was not activating the table
