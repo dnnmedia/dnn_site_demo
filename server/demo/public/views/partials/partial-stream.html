@@ -1,0 +1,115 @@
+<div class="page-wrapper" ng-controller="StreamCtrl">
+    <div class="wrapper">
+      <main id="stream">
+
+        <div id="articles">
+           <div class="heading today">
+              <h2>Today's News</h2>
+              <countrydropdown></countrydropdown>
+           </div>
+           <div class="article-cards">
+              <div class="article-card color-0" ng-click="$parent.viewArticle(articles[0].slug)">
+                 <mediabackground ng-if="articles" type="image" hash="articles[0].article.cover"></mediabackground>
+                 <div class="details">
+                    <h3>[[articles[0].article.title.text]]</h3>
+                    <span>[[articles[0].article.created | fromnow]]</span>
+                    <a href="javascript:void(0);" class="heart">
+                    <span></span>
+                    <span>0</span>
+                    </a>
+                 </div>
+              </div>
+              <div class="article-card color-1" ng-click="$parent.viewArticle(articles[1].slug)">
+                 <mediabackground ng-if="articles" type="image" hash="articles[1].article.cover"></mediabackground>
+                 <div class="details">
+                    <h3>[[articles[1].article.title.text]]</h3>
+                    <span>[[articles[1].article.created | fromnow]]</span>
+                    <a href="javascript:void(0);" class="heart">
+                    <span></span>
+                    <span>0</span>
+                    </a>
+                 </div>
+              </div>
+              <div class="article-card color-2" ng-click="$parent.viewArticle(articles[2].slug)">
+                 <mediabackground ng-if="articles" type="image" hash="articles[2].article.cover"></mediabackground>
+                 <div class="details">
+                    <h3>[[articles[2].article.title.text]]</h3>
+                    <span>[[articles[2].article.created | fromnow]]</span>
+                    <a href="javascript:void(0);" class="heart">
+                    <span></span>
+                    <span>0</span>
+                    </a>
+                 </div>
+              </div>
+           </div>
+           <div class="divider"></div>
+           <div class="heading">
+              <h2>Older News</h2>
+           </div>
+           <div class="article-cards">
+              <div class="article-card color-3" ng-click="$parent.viewArticle(articles[3].slug)">
+                 <mediabackground ng-if="articles" type="image" hash="articles[3].article.cover"></mediabackground>
+                 <div class="details">
+                    <h3>[[articles[3].article.title.text]]</h3>
+                    <span>[[articles[3].article.created | fromnow]]</span>
+                    <a href="javascript:void(0);" class="heart">
+                    <span></span>
+                    <span>0</span>
+                    </a>
+                 </div>
+              </div>
+              <div class="article-card color-4" ng-click="$parent.viewArticle(articles[4].slug)">
+                 <mediabackground ng-if="articles" type="image" hash="articles[4].article.cover"></mediabackground>
+                 <div class="details">
+                    <h3>[[articles[4].article.title.text]]</h3>
+                    <span>[[articles[4].article.created | fromnow]]</span>
+                    <a href="javascript:void(0);" class="heart">
+                    <span></span>
+                    <span>0</span>
+                    </a>
+                 </div>
+              </div>
+              <div class="article-card color-0" ng-click="$parent.viewArticle(articles[5].slug)">
+                 <mediabackground ng-if="articles" type="image" hash="articles[5].article.cover"></mediabackground>
+                 <div class="details">
+                    <h3>[[articles[5].article.title.text]]</h3>
+                    <span>[[articles[5].article.created | fromnow]]</span>
+                    <a href="javascript:void(0);" class="heart">
+                    <span></span>
+                    <span>0</span>
+                    </a>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+  				<div class="bottom">
+            <div id="support-links">
+  						<span>Support &amp; Discussion</span>
+  						<a class="support-slack" href="http://slack.dnn.media/" target="_blank">
+  							<div></div>
+  						</a>
+  						<a class="support-telegram" href="https://t.me/DNNMedia" target="_blank">
+  							<div></div>
+  						</a>
+  					</div>
+          </div>
+  		</main>
+    </div>
+</div>
+
+<script>
+		'use strict';
+		angular.module('DNN')
+			.controller('StreamCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+						window["addEventListener"]("load", function() {
+                    DNN.User.getArticleFeed()
+                        .then(function(data) {
+                            $timeout(function() {
+                                  $scope.articles = data.articles;
+                            });
+                        })
+
+            });
+			}]);
+</script>

@@ -1,0 +1,17 @@
+.project
+.settings
+.DS_Store
+target
+doc/guides/staging
+*.js~
+*.orig
+*.swp
+build/changelog/mappings/*SNAPSHOT.json
+.externalToolBuilders
+doc/guides/output
+dist
+node_modules
+/target.classpath
+.classpath
+src/css/aloha.css
+

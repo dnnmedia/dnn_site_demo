@@ -1,0 +1,42 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+    {{/content}}
+
+    {{#content "scripts"}}
+      <script>
+        window.addEventListener("load", (function() {
+            "use strict";
+
+            // $.post("/api/v1/user/add", {name:"Dondrey Taylor"});
+            // $.post("/api/v1/user/verify", {token:"016751c3d4f0c9cbecdfa521466504f9", userid: "597a29ebdb9bf604bc81ec87"});
+
+            var article = {
+                title: {
+                    text: "This is the article title right here"
+                },
+                body: {
+                    text: "This is the article body here.",
+                    textmarkup: "This is the <strong>article body</strong> here."
+                },
+                cover: "",
+                user: {
+                  id: "597a29ebdb9bf604bc81ec87",
+                  name: "Dondrey Taylor",
+                  photo: ""
+                }
+            };
+            // $.post("/api/v1/draft/article", {draftid: "597a3db48a3d480721ce01ef", token:"016751c3d4f0c9cbecdfa521466504f9", userid: "597a29ebdb9bf604bc81ec87", article: article});
+            // $.post("/api/v1/draft/article/remove", {draftid: "597a4226f391770860bf9c10", token:"016751c3d4f0c9cbecdfa521466504f9", userid: "597a29ebdb9bf604bc81ec87"});
+            // $.post("/api/v1/submit/article", {token:"016751c3d4f0c9cbecdfa521466504f9", userid: "597a29ebdb9bf604bc81ec87", article: article});
+            // $.post("/api/v1/review/article", {feedback:{text:"This is some of the feedback I would like to give to you right now. Your article sucks!", peerVote:false, personalVote: true}, articleid: "597a4332465e700899cdac06", token:"016751c3d4f0c9cbecdfa521466504f9", userid: "597a29ebdb9bf604bc81ec87"});
+
+            var popup = new DNN.popup("uploader-local", "", "", ["Done"])
+            popup.on("uploaded", function(data) {
+                	console.log(data);
+            })
+            popup.show();
+
+        }));
+      </script>
+    {{/content}}
+{{/extend}}

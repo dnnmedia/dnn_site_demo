@@ -1,0 +1,80 @@
+
+<div class="page-wrapper" ng-controller="ArticlesDraftsCtrl">
+  <div class="wrapper">
+     <main id="article-drafts">
+			  <h1>Articles Drafts</h1>
+				<div class="articles" ng-show="articles.length > 0">
+						<div class="article-wrapper" ng-repeat="article in articles">
+								<div class="article" slug="[[article.slug]]" ng-click="edit([[article.slug]])">
+									<mediabackground ng-if="article.article.cover && article.article.cover != ''"  type="image" hash="article.article.cover"></mediabackground>
+									<div ng-if="!article.article.cover || article.article.cover == ''" class="image"></div>
+									<div class="body">
+                  		<span ng-if="article.article.title.text != ''">[[article.article.title.text]]</span>
+                  		<span ng-if="article.article.title.text == ''">Untitled</span>
+                  		<span><i></i> Updated [[article.updated | fromnow]]</span>
+                		</div>
+            		</div>
+								<div class="options">
+										<button class="option option-edit" ng-click="edit([[article.slug]])"></button>
+										<button class="option option-delete" ng-click="remove(article.slug)"></button>
+								</div>
+					</div>
+			</div>
+			<p class="empty-message" ng-show="articles.length === 0">You have <strong>0</strong> article drafts so far.</p>
+
+			<div class="bottom">
+        <button ng-click="$parent.setPage('stream')">Back to Feed</button>
+      </div>
+
+    </main>
+    </div>
+</div>
+
+<script>
+		'use strict';
+		angular.module('DNN')
+			.controller('ArticlesDraftsCtrl', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+				    window["addEventListener"]('load', function() {
+
+                // Watch page change
+                $scope.$parent.$watch("page", function(page) {
+
+                      // Make sure we are on this page
+                     if (page === "article-drafts") {
+
+                        var fetchArticles = function() {
+                            DNN.User.getDraftArticles()
+                              .then(function(response) {
+                                    $timeout(function() {
+                                          $scope.articles = response.articles;
+                                    })
+                              })
+                        };
+
+                        $scope.remove = function(slug) {
+                              var popup = new DNN.popups.RemoveConfirmation("Are you sure you want to remove this draft?");
+                              popup.on("button", function(event) {
+                                  if (event.detail.button == 1) {
+                                      DNN.Editor.removeDraft(slug).then(function() {
+                                          fetchArticles();
+                                      })
+                                  }
+                              });
+                              popup.show();
+                        };
+
+                        $scope.edit = function(slug) {
+                            $scope.$parent.editArticle(slug);
+                        };
+
+                        $scope.view = function(slug) {
+                            $scope.$parent.viewArticle(slug);
+                        };
+
+                        fetchArticles();
+                     }
+                });
+
+            });
+			}]);
+</script>

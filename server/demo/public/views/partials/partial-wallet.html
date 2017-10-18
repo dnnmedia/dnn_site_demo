@@ -1,0 +1,90 @@
+<div class="page-wrapper" ng-controller="WalletCtrl">
+	  <div class="wrapper">
+		    <main id="wallet">
+		      <div class="heading">
+		        <h1>Wallet</h1>
+		        <div class="options">
+		            <a href="javascript:void(0);" class="option" ng-click="section = 'balance'" ng-class="{selected: section == 'balance'}">My Balance</a>
+		            <a href="javascript:void(0);" class="option" ng-click="section = 'transactions'" ng-class="{selected: section == 'transactions'}">My Transactions</a>
+		            <a href="javascript:void(0);" class="option" ng-click="section = 'buy'" ng-class="{selected: section == 'buy'}">Buy DNN tokens</a>
+		        </div>
+		      </div>
+
+		      <div class="sections">
+
+		        <div class="section" data-section="balance" ng-class="{visible: section == 'balance'}">
+		          <div class="container">
+		            <i></i>
+		            <h3>[[balance]] DNN</h3>
+		            <span>= 0 USD</span>
+		          </div>
+		        </div>
+
+		        <div class="section" data-section="transactions" ng-class="{visible: section == 'transactions'}">
+		          <div class="container">
+								  <p>To view your complete history of transactions, please refer to either <a href="https://metamask.io/" target="_blank">MetaMask</a> or <a href="https://parity.io/" target="_blank">Parity</a> for further details.</p>
+							</div>
+						</div>
+
+						<div class="section" data-section="buy" ng-class="{visible: section == 'buy'}">
+								<div class="top">
+										<div class="left">
+												<p>
+														<span class="option-number">1</span> Use the DNN faucet to add DNN tokens to your account.</span>
+														<a href="javascript:void(0);" ng-click="useFaucet()" class="btn">Use Faucet</a>
+												</p>
+												<div></div>
+										</div>
+										<div class="center">OR</div>
+										<div class="right">
+												<p>
+														<span class="option-number">2</span> Find others who are selling DNN tokens for Ether.
+												</p>
+												<a href="javascript:void(0);" class="button disabled">Buy with Shapeshift</a>
+										</div>
+								</div>
+								<div class="bottom">
+										<span>Don't have Ether?</span>
+										<a href="/alpha/access/instructions" target="_blank">Find out where to get some</a>.
+								</div>
+		        </div>
+
+					</div>
+
+					<small id="wallet-address" ng-show="!isSimulated">Your DNN wallet address is <strong>[[wallet]]</strong> <a href="javascript:void(0);" ng-click="changeETHAccount()">(Change ETH Account)</a></small>
+
+					<div class="bottom">
+							<button ng-click="$parent.setPage('stream')">Back to Feed</button>
+					</div>
+				</main>
+	  </div>
+</div>
+
+<script>
+		'use strict';
+
+		angular.module('DNN')
+			.controller('WalletCtrl', ['$scope', '$location', '$timeout', '$controller', function($scope, $location, $timeout, $controller) {
+							window["addEventListener"]('load', function() {
+
+										// Watch page change
+										$scope.$parent.$watch("page", function(page) {
+
+													// Make sure we are on this page
+											 		if (page === "mywallet") {
+
+															$scope.section = "balance";
+														  $scope.wallet = ""
+														  $scope.balance = ""
+															$scope.faucetaddress = DNN.constants.token.faucetaddress
+
+															$scope.changeETHAccount = function() {
+															};
+
+															$scope.useFaucet = function() {
+															};
+											 		}
+										 });
+							});
+			}])
+	</script>

@@ -1,0 +1,10 @@
+
+<div id="sidebar">
+    <button data-type="logo" ng-class="{selected: page === 'stream'}" ng-click="setPage('stream')"></button>
+    <button data-type="mywallet" ng-class="{selected: page === 'mywallet'}" ng-click="setPage('mywallet')"></button>
+    <button data-type="assigned-articles" ng-class="{selected: page === 'article-assigned'}" ng-click="setPage('article-assigned')"></button>
+    <button data-type="reviewed-articles" ng-class="{selected: page === 'article-reviewed'}" ng-click="setPage('article-reviewed')"></button>
+    <button data-type="drafted-articles" ng-class="{selected: page === 'article-drafts'}" ng-click="setPage('article-drafts')"></button>
+    <button data-type="submitted-articles" ng-class="{selected: page === 'article-submitted'}" ng-click="setPage('article-submitted')"></button>
+    <button data-type="write-article" ng-class="{selected: page === 'article-editor'}" ng-click="setPage('article-editor')"></button>
+</div>

@@ -1,0 +1,16 @@
+<html>
+  <head>
+      <script type="text/javascript" src="/assets/js/requires/requires.js"></script>
+      <script type="text/javascript" src="/assets/js/ethereum/backend.js"></script>
+  </head>
+  <body>
+    <script>
+      window["addEventListener"]("load", function() {
+        var from = "0x4cc65D82d4d66b1305EAaA2a62909bd07833f85E";
+        backend.contracts.DNNTokenContract.issueMeDNN({from: from})
+          .then(console.log)
+          .catch(console.log)
+      });
+    </script>
+  </body>
+</html>

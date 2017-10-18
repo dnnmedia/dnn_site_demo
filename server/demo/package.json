@@ -1,0 +1,48 @@
+{
+  "name": "dnnsitedemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "app-store-reviews": "^0.0.4",
+    "boom": "^2.9.0",
+    "data-uri-to-buffer": "^1.0.0",
+    "dateformat": "^1.0.11",
+    "ethjs": "^0.2.7",
+    "handlebars": "^4.0.3",
+    "handlebars-layouts": "^3.1.2",
+    "hapi": "^10.1.0",
+    "hashids": "^1.0.2",
+    "hat": "^0.0.3",
+    "hoek": "^2.16.3",
+    "inert": "^3.0.2",
+    "joi": "^6.7.1",
+    "md5": "^2.0.0",
+    "moment": "^2.10.6",
+    "mongojs": "^2.4.0",
+    "mysql": "^2.9.0",
+    "nanotimer": "^0.3.10",
+    "path": "^0.12.7",
+    "redbird": "^0.6.15",
+    "request": "^2.64.0",
+    "slackin": "^0.13.0",
+    "uniq": "^1.0.1",
+    "vision": "^3.0.0",
+    "voice.js": "^0.1.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnnmedia/dnn_site_demo.git"
+  },
+  "author": "Dondrey Taylor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dnnmedia/dnn_site_demo/issues"
+  },
+  "homepage": "https://github.com/dnnmedia/dnn_site_demo#readme"
+}

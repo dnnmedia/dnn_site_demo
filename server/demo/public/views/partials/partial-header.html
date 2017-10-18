@@ -1,0 +1,16 @@
+
+<header id="logged-in">
+  <button id="simulate-toggle" ng-click="toggleSimulation()">
+     <span ng-show="isSimulated == true">Switch to DNN on Testnet</span>
+     <span ng-show="isSimulated == false">Switch to Simulated DNN</span>
+ </button>
+ <div id="user">
+      <mediabackground ng-if="DNN.Session.current.photo && DNN.Session.current.photo != ''"  type="image" hash="DNN.Session.current.photo"></mediabackground>
+      <div data-type="name">[[DNN.Session.current.name]] <div id="menu-down-arrow"></div></div>
+  </div>
+  <div id="user-menu">
+    <div class="options">
+      <a target="_self" href="javascript:void(0);" ng-click="setPage('account')" class="option">My Account</a>
+    </div>
+  </div>
+</header>

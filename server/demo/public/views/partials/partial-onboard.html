@@ -1,0 +1,301 @@
+{{#extend "layout-base"}}
+	  {{#content "body"}}
+      <div id="wrapper" ng-controller="OnboardCtrl">
+        <a href="/dashboard">
+						<div id="logo"></div>
+        </a>
+
+				<a href="/dashboard" id="signin-option">Already have an account? <strong>Sign in</strong>.</a>
+
+				<main id="onboard">
+					<div id="sections">
+
+						<!-- No Web3 -->
+						<section data-section="noweb3" ng-class="{visible: section == 'noweb3'}">
+							  <h1>Browser Not Supported</h1>
+								<p>To access the DNN Alpha and interact with the blockchain, please use a web3-enabled browser or client such as <a href="https://github.com/ethereum/mist" target="_blank">Mist</a> or <a href="https://parity.io/" target="_blank">Parity</a>. If you would like to access DNN from a traditional browser such as Chrome or Firefox, install <a href="http://metamask.io" target="_blank">MetaMask</a>.</p>
+								<p>For more information about where to find and how to install a web3 browser, please visit the DNN's <a href="http://dnn.media/faq" target="_blank">FAQ</a>.</p>
+						</section>
+
+						<!-- Blockchain/Non-Blockchain -->
+						<section data-section="version" ng-class="{visible: section == 'version'}">
+							<h1>DNN Alpha Versions</h1>
+							<p>By default, all testers are directed to the <strong>non-blockchain version</strong> of the DNN alpha for easier access. At anytime during the demo, testers can switch to the <strong>blockchain version</strong> of DNN to enable smart contract-based functionality. Functionality can only be tested on the blockchain version.</p>
+							<button ng-click="section = 'welcome'">Continue</button>
+					 </section>
+
+						<!-- Setup -->
+						<section data-section="setup" ng-class="{visible: section == 'setup'}">
+							<h1>DNN Alpha Checklist</h1>
+							<p>There are a few things you will need to have setup in order to proceed to access DNN. <a href="/alpha/access/instructions" target="_blank">Here is a detailed set of instructions</a>.</p>
+							<div class="steps">
+										<div class="step" ng-class="{done: checklist.hasBrowser}">
+												<div class="num">
+														<div class="background"></div>
+														<span>1</span>
+														<div class="check"></div>
+												</div>
+												<p>To interact with DNN, you will need to use an Ethereum supported browser. Install <a href="/alpha/access/instructions#parity-setup" target="_blank">Parity</a> or use the <a href="/alpha/access/instructions#metamask-setup" target="_blank">MetaMask</a> browser plugin (Chrome and Firefox only).</p>
+										</div>
+										<div class="step" ng-class="{done: checklist.hasStorage}">
+												<div class="num">
+														<div class="background"></div>
+														<span>2</span>
+												</div>
+												<p>DNN uses your browser to store articles retrieved from the DNN network. Enable Local Storage in your browser. <a href="/alpha/access/instructions#enable-localstorage" target="_blank">How do I enable local storage?</a></p>
+										</div>
+										<div class="step" ng-class="{done: checklist.hasKovan}">
+												<div class="num">
+														<div class="background"></div>
+														<span>3</span>
+												</div>
+												<p>To get DNN, you will need some Kovan Ether. To get Kovan Ether refer <a href="/alpha/access/instructions" target="_blank">here</a>.</p>
+										</div>
+								</div>
+								<button ng-disabled="!isCheckListDone()" ng-click="checklistContinue()">Continue</button>
+					 </section>
+
+						<!-- Get Started -->
+						<section data-section="getstarted" ng-class="{visible: section == 'getstarted'}">
+							  <h1>Hello!</h1>
+								<p>Is this your first time trying the DNN demo or have you been here before?</p>
+								<button id="new-btn" ng-click="section = 'welcome'">I'm new</button>
+								<button id="new-btn" ng-click="section = 'welcome'">I'm registered</button>
+						</section>
+
+						<!-- Welcome -->
+						<section data-section="welcome" ng-class="{visible: section == 'welcome'}">
+							  <div id="background"></div>
+								<h1>Welcome to the DNN demo</h1>
+								<p>This demo is meant to be a very simple proof of concept, with Ethereum smart contract functionality in place. We will continue to improve upon it frequently, as we work toward building DNN in its entirety. <em>Note that certain important aspects are unfinished or haven’t been added yet.</em> The placeholder articles do not currently reflect what will be seen on DNN when it is finished.</p>
+								<button ng-click="section = 'name'">Begin</button>
+								<div id="page-indicator">
+										<div class="current"></div>
+										<div></div>
+										<div></div>
+										<div></div>
+										<div></div>
+								</div>
+						</section>
+
+						<!-- Full Name -->
+						<section data-section="name" ng-class="{visible: section == 'name'}">
+							<h1>Let's Begin</h1>
+							<p>We will need your full name, to start with.</p>
+							<div class="field">
+									<input type="text" placeholder="Full Name" ng-model="user.fullname">
+							</div>
+							<button ng-disabled="user.fullname == ''" ng-click="section = 'signup'">Next</button>
+							<div id="page-indicator">
+									<div></div>
+									<div class="current"></div>
+									<div></div>
+									<div></div>
+									<div></div>
+							</div>
+						</section>
+
+						<!-- Sign up -->
+						<section data-section="signup" ng-class="{visible: section == 'signup'}">
+						  <h1>Join the Conversation <div class="slack"></div></h1>
+						  <p>All of DNN's discussions, announcements, important updates, and support queries are communicated on our Slack channel. Join to stay in the loop!</p>
+						  <a class="button outline slack-button" href="http://slack.dnn.media/" target="_blank"><div class="slack"></div> Slack</a>
+						  <button ng-click="section = 'notify'">Next</button>
+						  <div id="page-indicator">
+						      <div></div>
+						      <div></div>
+						      <div></div>
+						      <div class="current"></div>
+						      <div></div>
+						      <div></div>
+						  </div>
+						</section>
+
+						<!-- Select Type -->
+						<section data-section="selecttype" ng-class="{visible: section == 'selecttype'}">
+							<h1>Select your user type</h1>
+							<p>Your user type can be changed at any time for the purposes of this demo.</p>
+							<div id="types">
+									<div class="type" ng-click="user.type = 'reader'" ng-class="{selected: user.type == 'reader'}"><div data-type="reader"></div></div>
+									<div class="type" ng-click="user.type = 'writer'" ng-class="{selected: user.type == 'writer'}"><div data-type="writer"></div></div>
+									<div class="type" ng-click="user.type = 'reviewer'" ng-class="{selected: user.type == 'reviewer'}"><div data-type="reviewer"></div></div>
+							</div>
+							<button ng-click="section = 'notify'">Next</button>
+							<div id="page-indicator">
+									<div></div>
+									<div></div>
+									<div></div>
+									<div class="current"></div>
+									<div></div>
+									<div></div>
+							</div>
+						</section>
+
+						<!-- Save account -->
+						<section data-section="notify" ng-class="{visible: section == 'notify'}">
+							<h1>Save Account Details</h1>
+							<p>To finalize the creation of your account, please click save to add your account details on the DNN network.</p>
+							<button ng-click="save()">Save</button>
+							<div id="page-indicator">
+									<div></div>
+									<div></div>
+									<div></div>
+									<div class="current"></div>
+									<div></div>
+							</div>
+						</section>
+
+						<!-- Done -->
+						<section data-section="done" ng-class="{visible: section == 'done'}">
+							<h1>You're all set, [[user.fullname]]</h1>
+							<p>You are now ready to try the DNN demo! If you have any feedback or questions, please don't hesitate to contact us at <strong>contact@dnn.media</strong></p>
+							<button ng-click="DNN.Redirect('/alpha')">Proceed to dashboard</button>
+							<div id="page-indicator">
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div class="current"></div>
+							</div>
+						</section>
+
+				</main>
+      </div>
+    {{/content}}
+
+		{{#content "scripts"}}
+		<script>
+			'use strict';
+			angular.module('DNN')
+				.controller('OnboardCtrl', ['$scope', '$location', '$timeout', '$interval', function($scope, $location, $timeout, $interval) {
+							window["addEventListener"]("load", function() {
+
+										// Handles loading appropriate section
+										var handleLocation = function()
+										{
+													switch ($location.url())
+													{
+															case "/noweb3":
+																$scope.section = "noweb3";
+																break;
+
+															default:
+															case "/version":
+																	$scope.section = "version"
+																	break;
+
+															case "/setup":
+																$scope.section = "setup"
+																break;
+
+															case "/welcome":
+																$scope.section = "welcome";
+																break;
+
+															case "/name":
+																$scope.section = "name";
+																break;
+
+															case "/signup":
+																$scope.section = "signup";
+																break;
+
+															case "/selecttype":
+																$scope.section = "selecttype";
+																break;
+
+															case "/notify":
+																$scope.section = "notify";
+																break;
+
+															case "/done":
+																$scope.section = "done";
+																break;
+												  }
+										};
+
+										// DNN
+										$scope.DNN = DNN;
+
+										// Stores user details
+										$scope.user = {fullname: "", email: ""};
+
+										// (Blockchain Version) State of checklist
+										$scope.checklist = {
+											 hasBrowser: false,
+											 hasStorage: false,
+											 hasKovan: false
+										};
+
+										// (Blockchain Version) Determine if checklist has been satisfied
+										$scope.isCheckListDone = function() {
+											 	return true;
+										};
+
+										// (Blockchain Version) Redirect to approprate section if checklist is satisfied
+										$scope.checklistContinue = function() {
+												if ($scope.isCheckListDone()) {
+													$scope.section = 'welcome';
+												}
+										};
+
+										// Stores current section
+										$scope.section = "";
+
+										// Save details
+										$scope.save = function() {
+												// Persist email to newsletter DB
+												$.post("//dnn.media/save/email", {email: $scope.user.email});
+
+												// Show loading indicator while we save user details
+												LI.show();
+
+												// Save User Details
+												$.post("/api/v1/user/add", $scope.user)
+													.then(function(data) {
+															LI.hide();
+															DNN.Session.save(data.user);
+															$timeout(function() {
+																	$scope.section = "done";
+															});
+													})
+										};
+
+										// Update URL accordingly on section change
+										$scope.$watch("section", function(newVal, oldVal) {
+												if (newVal != oldVal && oldVal != "") $location.url($scope.section);
+										});
+
+										// On any scope changes handle updating section
+										$scope.$apply(function() {
+												if ($scope.section != "") handleLocation();
+												else {
+														$scope.section = "version"
+														$location.url($scope.section);
+												}
+										});
+
+										// Upon load handle setting onboard section
+									  $scope.$on('$locationChangeStart', function(event, next, current) {
+											 	handleLocation();
+										});
+
+										// Show loading indicator while we attempt to fetch session user
+										LI.show();
+
+										// Attempt to obtain session user
+										DNN.Session.get()
+											.then(function(user) {
+													LI.hide();
+													DNN.Redirect("/alpha");
+											})
+											.catch(function() {
+													LI.hide();
+											})
+
+						});
+
+				}]);
+		</script>
+		{{/content}}
+{{/extend}}
