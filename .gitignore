@@ -1,4 +1,6 @@
-
-node_modules/
+node_modules
 server/dnn_ssl
 server/proxy.js
+
+.DS_Store
+.sass-cache
